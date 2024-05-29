@@ -28,9 +28,12 @@ export const getAcciones = async (): Promise<panelBYMA[] | Error> => {
     buttons = headers.nth(1).locator(".buttonFilter");
     await buttons.nth(2).click({ timeout: 9000 });
 
-    for (let i = 0; i < 4; i++) {
-      await aRight.nth(0).click({ timeout: 9000 });
+    for (let i = 0; i < 6; i++) {
       await aRight.nth(1).click({ timeout: 9000 });
+    }
+
+    for (let i = 0; i < 6; i++) {
+      await aRight.nth(0).click({ timeout: 9000 });
     }
 
     for (let j = 0; j < 2; j++) {
