@@ -41,7 +41,6 @@ export const getAcciones = async (): Promise<panelBYMA[] | Error> => {
 
         let elem = td.nth(0).locator(".content");
         let especie = await elem.innerText();
-        console.log("1", especie);
 
         elem = td.nth(1).locator(".content");
         let vencimiento = (await elem.innerText()) as vencimiento;
@@ -91,7 +90,6 @@ export const getAcciones = async (): Promise<panelBYMA[] | Error> => {
 
         let elem = td.nth(0).locator(".content");
         let especie = await elem.innerText();
-        console.log(2, especie);
 
         elem = td.nth(1).locator(".content");
         let vencimiento = (await elem.innerText()) as vencimiento;
