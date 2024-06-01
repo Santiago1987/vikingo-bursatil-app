@@ -12,8 +12,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "convert-csv-to-json": "^2.47.0",
     "playwright": "^1.44.1",
-    "ts-node": "^10.9.2"
+    "ts-node": "^10.9.2",
+    "xlsx": "^0.18.5"
   }
 }

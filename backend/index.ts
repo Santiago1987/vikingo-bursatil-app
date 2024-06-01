@@ -1,4 +1,4 @@
-import { getCedears } from "./BYMAScrapper/cedears";
+/*import { getCedears } from "./BYMAScrapper/cedears";
 
 getCedears()
   .then((res) => {
@@ -6,4 +6,8 @@ getCedears()
     console.log(res);
     console.log(res.length);
   })
-  .catch((err) => console.error("ERRR", err));
+  .catch((err) => console.error("ERRR", err));*/
+
+import { getDataFromFile } from "./importCSV/getDataCSV";
+
+getDataFromFile();
