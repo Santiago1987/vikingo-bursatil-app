@@ -12,6 +12,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "mongoose": "^8.4.1",
     "playwright": "^1.44.1",
     "ts-node": "^10.9.2",
     "xlsx": "^0.18.5"

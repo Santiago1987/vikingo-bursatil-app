@@ -1,13 +1,14 @@
-/*import { getCedears } from "./BYMAScrapper/cedears";
+import { connectiondb } from "./mongodb";
+import { getDataFromFile } from "./utils/importCSV/getDataCSV";
 
-getCedears()
+const connectionString = "mongodb://localhost:27017/vikingoBursatilDB";
+
+connectiondb(connectionString);
+
+getDataFromFile()
   .then((res) => {
-    if (res instanceof Error) return;
-    console.log(res);
-    console.log(res.length);
+    console.log("res", res);
   })
-  .catch((err) => console.error("ERRR", err));*/
-
-import { getDataFromFile } from "./importCSV/getDataCSV";
-
-getDataFromFile();
+  .catch((err) => {
+    console.error("err", err);
+  });
