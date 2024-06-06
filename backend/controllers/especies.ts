@@ -37,3 +37,14 @@ export const saveEspecieValue = async (
     throw new Error("Error al guardar: " + err);
   }
 };
+
+// obtener toda la cotizacion historica de una determinada espexie
+export const getEspecieHistorico = async (especie: string) => {
+  try {
+    if (!especie) throw new Error("especie no puede ser vacio");
+    let result = await Especie.find({ especie }).select("cotizacionnes");
+    return result;
+  } catch (err) {
+    throw new Error("Error al buscar info: " + err);
+  }
+};
