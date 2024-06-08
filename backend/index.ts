@@ -1,13 +1,19 @@
 /*import { connectiondb } from "./mongodb";
-import { getEspecieHistorico } from "./controllers/especies";
+import { getLastDateRegistered } from "./controllers/especies";
 
 const connectionString = "mongodb://localhost:27017/vikingoBursatilDB";
 
 connectiondb(connectionString);
 
-getEspecieHistorico("AAPL")
-  .then((res) => console.log(res))
-  .catch((err) => console.error(err));*/
+getLastDateRegistered().then((res) => {
+  if (!res) return;
+  console.log(res.getTime());
+});*/
+
+import { connectiondb } from "./mongodb";
+const connectionString = "mongodb://localhost:27017/vikingoBursatilDB";
+
+connectiondb(connectionString);
 
 import { getDataFromFile } from "./utils/importCSV/getDataCSV";
 

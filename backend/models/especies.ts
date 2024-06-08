@@ -3,7 +3,7 @@ import { Schema, model } from "mongoose";
 const especieSchema = new Schema({
   especie: { type: String, required: true, unique: true },
   name: { type: String, required: false },
-  cotizacionnes: [
+  cotizaciones: [
     {
       fecha: { type: Date, required: true },
       value: { type: Number, required: true },

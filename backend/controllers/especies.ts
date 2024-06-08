@@ -1,5 +1,8 @@
 import Especie from "../models/especies";
 import { especieData } from "../../Types/backend/excel";
+import { Especie as typEspec } from "../../Types/backend/types";
+
+type hitoric = Omit<typEspec, "name" | "especie">[] | undefined;
 
 //guardar especie y nombre (header)
 export const saveEspecieExcel = async (especie: string, name: string) => {
@@ -26,11 +29,11 @@ export const saveEspecieValue = async (
   try {
     if (valueArr.length < 1) throw new Error("values parameter required");
     let isSaved = await Especie.findOne({ especie });
-    if (!isSaved) throw new Error("La especie no existe");
+    if (!isSaved) throw new Error("La especie no existe: " + especie);
     // el addToSet se asegura que no haya valores duplocados, como un SET
     let result = await Especie.updateOne(
       { especie },
-      { $addToSet: { cotizacionnes: { $each: valueArr } } }
+      { $addToSet: { cotizaciones: { $each: valueArr } } }
     );
     return result;
   } catch (err) {
@@ -42,9 +45,30 @@ export const saveEspecieValue = async (
 export const getEspecieHistorico = async (especie: string) => {
   try {
     if (!especie) throw new Error("especie no puede ser vacio");
-    let result = await Especie.find({ especie }).select("cotizacionnes");
+    let result = (await Especie.find({ especie }).select(
+      "cotizaciones"
+    )) as unknown as hitoric;
     return result;
   } catch (err) {
     throw new Error("Error al buscar info: " + err);
+  }
+};
+
+//Utima fecha registrada
+export const getLastDateRegistered = async (
+  especie: string
+): Promise<Date | undefined> => {
+  try {
+    let res = await getEspecieHistorico(especie);
+    if (!res) return;
+    let { cotizaciones } = res[0];
+    if (cotizaciones.length > 0) {
+      if (!cotizaciones[0]) return;
+      let { fecha } = cotizaciones[0];
+      return fecha;
+    }
+    return;
+  } catch (err) {
+    return;
   }
 };

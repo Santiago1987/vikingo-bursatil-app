@@ -1,6 +1,10 @@
 import XLSX from "xlsx";
 import { especieData } from "../../../Types/backend/excel";
-//import { saveEspecieExcel, saveEspecieValue } from "../../controllers/especies";
+import {
+  saveEspecieValue,
+  saveEspecieExcel,
+  getLastDateRegistered,
+} from "../../controllers/especies";
 
 export const getDataFromFile = async () => {
   try {
@@ -17,41 +21,45 @@ export const getDataFromFile = async () => {
 
     let indexList: string[] = getIndexList();
 
-    //let especie = "AMD";
-    //let name = "Advance Micro Devices";
-    //let letra = "DK";
-    /*try {
-      await saveEspecieExcel(especie, name);
-    } catch (err) {
-      console.log("Error: ", err);
-      //return new Error("Error al leer datos de excel: " + err);
-    }*/
-
     for (let n = 1; n < indexList.length; n++) {
       let letra = indexList[n];
       let especie = woorksheet[`${letra}1`]?.w;
       let result: especieData[] = [];
-      for (let index = 2; index < totalLine; index++) {
-        if (letra !== "A") {
-          let date = woorksheet[`A${index}`]?.w as string;
-
-          let val = woorksheet[`${letra}${index}`]?.v;
-
-          let value = val ? parseFloat(val) : -1;
-
-          let dat = date.split("/");
-          let fecha = new Date(`${dat[2]}-${dat[1]}-${dat[0]}`);
-          result.push({
-            value,
-            fecha,
-          });
+      if (especie) {
+        try {
+          await saveEspecieExcel(especie, especie);
+        } catch (err) {
+          console.log("Especie ya guardada", especie);
+          //return new Error("Error al leer datos de excel: " + err);
         }
 
-        //let res = await saveEspecieValue(especie, result);
-        //return res;
+        for (let index = 2; index < totalLine; index++) {
+          if (letra !== "A") {
+            let fechaLimite = await getLastDateRegistered(especie);
+            let numberLimit = fechaLimite ? fechaLimite?.getTime() : 0;
+
+            let date = woorksheet[`A${index}`]?.w as string;
+
+            let val = woorksheet[`${letra}${index}`]?.v;
+
+            let value = val ? parseFloat(val) : -1;
+
+            let dat = date.split("/");
+            let fecha = new Date(`${dat[2]}-${dat[1]}-${dat[0]}`);
+            let time = fecha.getTime();
+
+            if (numberLimit < time) {
+              result.push({
+                value,
+                fecha,
+              });
+            }
+          }
+        }
+        let res = await saveEspecieValue(especie, result);
+        console.log(especie, res);
       }
-      console.log(especie, result, result.length);
-      //if (n === 2) return;
+      if (letra === "DK") return;
     }
   } catch (err) {
     console.log("Error: ", err);
@@ -92,9 +100,9 @@ const getIndexList = () => {
     "Z",
   ];
 
-  for (let i = 0; i < 4; i++) {
+  for (let i = 0; i < 5; i++) {
     for (let j = 1; j < index.length; j++) {
-      console.log(`${index[i]}${index[j]}`);
+      //console.log(`${index[i]}${index[j]}`);
       res.push(`${index[i]}${index[j]}`);
     }
   }
