@@ -10,11 +10,23 @@ getLastDateRegistered().then((res) => {
   console.log(res.getTime());
 });*/
 
-import { connectiondb } from "./mongodb";
+/*import { connectiondb } from "./mongodb";
 const connectionString = "mongodb://localhost:27017/vikingoBursatilDB";
 
 connectiondb(connectionString);
 
 import { getDataFromFile } from "./utils/importCSV/getDataCSV";
 
-getDataFromFile();
+getDataFromFile();*/
+
+/*import { getAcciones } from "./utils/BYMAScrapper/acciones";
+getAcciones().then((res) => {
+  console.log(res);
+});*/
+
+//import { getCedears } from "./utils/BYMAScrapper/cedears";
+import { CEDEARList } from "../Types/backend/types";
+console.log(CEDEARList["AAPLs"]);
+/*getCedears().then((res) => {
+  console.log(Object.keys(CEDEARList));
+});*/
