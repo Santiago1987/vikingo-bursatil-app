@@ -5,7 +5,7 @@ const connectionString = "mongodb://localhost:27017/vikingoBursatilDB";
 
 connectiondb(connectionString);
 
-getLastDateRegistered().then((res) => {
+getLastDateRegistered("AAPL").then((res) => {
   if (!res) return;
   console.log(res.getTime());
 });*/
@@ -26,7 +26,7 @@ getAcciones().then((res) => {
 
 //import { getCedears } from "./utils/BYMAScrapper/cedears";
 import { CEDEARList } from "../Types/backend/types";
-console.log(CEDEARList["AAPLs"]);
+console.log(CEDEARList);
 /*getCedears().then((res) => {
   console.log(Object.keys(CEDEARList));
 });*/
