@@ -23,10 +23,21 @@ getDataFromFile();*/
 getAcciones().then((res) => {
   console.log(res);
 });*/
-
-//import { getCedears } from "./utils/BYMAScrapper/cedears";
+import { getCedears } from "./utils/BYMAScrapper/cedears";
 import { CEDEARList } from "../Types/backend/types";
-console.log(CEDEARList);
-/*getCedears().then((res) => {
-  console.log(Object.keys(CEDEARList));
-});*/
+console.log(Object.keys(CEDEARList));
+getCedears().then((res) => {
+  let cedearList = Object.keys(CEDEARList);
+
+  if (res instanceof Error) return;
+
+  for (let i = 0; i < res.length; i++) {
+    let papel = res[i];
+
+    if (cedearList.some((p) => p === papel.especie)) {
+      console.log(papel.especie);
+      if (papel.vencimiento === "24hs") {
+      }
+    }
+  }
+});
