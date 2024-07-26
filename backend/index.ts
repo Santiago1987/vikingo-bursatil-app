@@ -1,11 +1,19 @@
+import express from "express";
+import cors from "cors";
 import { connectiondb } from "./mongodb";
-import { getLastDateRegistered } from "./controllers/especies";
 
 const connectionString = "mongodb://localhost:27017/vikingoBursatilDB";
-
 connectiondb(connectionString);
 
-getLastDateRegistered("AAPL").then((res) => {
-  if (!res) return;
-  console.log(res.getTime());
+const app = express();
+const port = process.env.PORT ?? 3000;
+
+app.use(cors());
+
+app.use("/api/opciones/:especie", (req, res) => {
+  return res.status(200).json({}).end();
+});
+
+app.listen(port, () => {
+  console.log(`Server listening on port ${port}`);
 });
