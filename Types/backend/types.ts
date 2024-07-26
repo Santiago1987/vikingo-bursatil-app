@@ -22,9 +22,9 @@ export interface opcionesPrimaCant {
 }
 
 export interface opciones {
-  [number]: [
+  number: [
     {
-      [opcionesContrato]: [opcionesPrimaCant];
+      opcionesContrato: [opcionesPrimaCant];
     }
   ];
 }
