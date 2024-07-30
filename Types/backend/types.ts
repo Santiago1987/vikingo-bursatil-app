@@ -9,26 +9,6 @@ export interface Especie {
   ];
 }
 
-export enum opcionesContrato {
-  call_c = "CALL Compra",
-  call_v = "CALL Venta",
-  put_c = "PUT Compra",
-  put_v = "PUT Venta",
-}
-
-export interface opcionesPrimaCant {
-  cantidad: number;
-  prima: number;
-}
-
-export interface opciones {
-  number: [
-    {
-      opcionesContrato: [opcionesPrimaCant];
-    }
-  ];
-}
-
 export enum CEDEARList {
   ALL = "ALL",
   APP = "APP",
