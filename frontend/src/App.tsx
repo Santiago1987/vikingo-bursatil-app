@@ -1,7 +1,12 @@
 import "./App.css";
+import { Opciones } from "./opciones/components/Opciones";
 
 function App() {
-  return <></>;
+  return (
+    <>
+      <Opciones />
+    </>
+  );
 }
 
 export default App;
