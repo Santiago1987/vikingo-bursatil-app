@@ -1,0 +1,13 @@
+.tabla-operaciones {
+    width: 100%;
+}
+
+.call-put{
+    background-color: rgb(43, 54, 72);
+}
+
+#base {
+    background-color: rgb(17, 64, 104);
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
