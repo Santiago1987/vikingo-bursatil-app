@@ -1,5 +1,5 @@
 import { chromium } from "playwright";
-import { opcionesBYMA } from "../../../Types/backend/BYMAScrapper";
+import { opcionesBYMA } from "../../types";
 
 export const getOpcionesByma = async (): Promise<opcionesBYMA[] | Error> => {
   try {

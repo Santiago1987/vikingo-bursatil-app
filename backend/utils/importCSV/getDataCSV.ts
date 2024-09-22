@@ -1,5 +1,5 @@
 import XLSX from "xlsx";
-import { especieData } from "../../../Types/backend/excel";
+import { especieData } from "../../types";
 import {
   saveEspecieValue,
   saveEspecieExcel,

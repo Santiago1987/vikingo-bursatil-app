@@ -1,5 +1,5 @@
 import { chromium } from "playwright";
-import { panelBYMA } from "../../../Types/backend/BYMAScrapper";
+import { panelBYMA } from "../../types";
 
 type vencimiento = "24hs" | "C.I.";
 
