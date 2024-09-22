@@ -1,9 +1,9 @@
 import "./opciones.css";
 import { useEffect, useState } from "react";
-import { getCalculosOpciones } from "../utils/getCalculosOpciones.ts";
-import { Chart } from "./Chart/Chart.tsx";
-import { ListBasesTabla } from "./Bases/ListBasesTabla.tsx";
-import { OptionOperations } from "../../types.ts";
+import { getCalculosOpciones } from "../../utils/getCalculosOpciones.ts";
+import { Chart } from "../../components/Chart/Chart.tsx";
+import { ListBasesTabla } from "../../components/Bases/ListBasesTabla.tsx";
+import { OptionOperations } from "../../../types.ts";
 
 const ini_state = {
   240: {

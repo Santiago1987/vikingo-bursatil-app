@@ -1,5 +1,5 @@
 import "./App.css";
-import { Opciones } from "./opciones/components/Opciones";
+import { Opciones } from "./opciones/containers/main/Opciones";
 
 function App() {
   return (
