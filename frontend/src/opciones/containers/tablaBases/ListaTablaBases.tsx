@@ -1,12 +1,12 @@
-import "./ListBasesTabla.css";
+import "./ListaTablaBases.css";
 import { OptionOperations } from "../../../types";
-import { BasesTabla } from "./BasesTabla";
+import { BasesTabla } from "../../components/tablaBases/BasesTabla";
 
 type Props = {
   OperationsList: OptionOperations;
 };
 
-export const ListBasesTabla = ({ OperationsList }: Props) => {
+export const ListaTablaBases = ({ OperationsList }: Props) => {
   let bases = Object.keys(OperationsList);
 
   return (

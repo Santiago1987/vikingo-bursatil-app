@@ -1,8 +1,8 @@
 import "./opciones.css";
 import { useEffect, useState } from "react";
 import { getCalculosOpciones } from "../../utils/getCalculosOpciones.ts";
-import { Chart } from "../../components/Chart/Chart.tsx";
-import { ListBasesTabla } from "../../components/Bases/ListBasesTabla.tsx";
+import { Chart } from "../../components/chart/Chart.tsx";
+import { ListaTablaBases } from "../tablaBases/ListaTablaBases.tsx";
 import { OptionOperations } from "../../../types.ts";
 
 const ini_state = {
@@ -42,7 +42,7 @@ export const Opciones = () => {
         <h1>Opciones</h1>
         <section>
           <aside>
-            <ListBasesTabla OperationsList={data} />
+            <ListaTablaBases OperationsList={data} />
           </aside>
           <aside>
             <Chart optionData={results} />
