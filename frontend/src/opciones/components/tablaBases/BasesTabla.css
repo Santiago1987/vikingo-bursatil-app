@@ -1,3 +1,12 @@
+.td-tableOpction-title {
+    font-size: 14px;
+    text-align: center;
+    width: 64px;
+    font-weight: bold;
+    height: 20px;
+    vertical-align: middle;
+}
+
 .tabla-operaciones {
     width: 100%;
 }

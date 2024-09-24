@@ -29,12 +29,12 @@ export const BasesTabla = ({ base, callList, putList }: Props) => {
             </th>
           </tr>
           <tr>
-            <td>Cantidad</td>
-            <td>Prima</td>
-            <td>Total</td>
-            <td>Cantidad</td>
-            <td>Prima</td>
-            <td>Total</td>
+            <td className="td-tableOpction-title">Cantidad</td>
+            <td className="td-tableOpction-title">Prima</td>
+            <td className="td-tableOpction-title">Total</td>
+            <td className="td-tableOpction-title">Cantidad</td>
+            <td className="td-tableOpction-title">Prima</td>
+            <td className="td-tableOpction-title">Total</td>
           </tr>
           <Rows calls={callList} puts={putList} />
         </tbody>

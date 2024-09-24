@@ -13,23 +13,23 @@ export const Rows = ({ calls, puts }: Props) => {
   if (calls.length === 0 && puts.length === 0) {
     return (
       <tr className="rows">
-        <td>
-          <input />
+        <td className="td-tableOption">
+          <input className="input-row" />
         </td>
-        <td>
-          <input />
+        <td className="td-tableOption">
+          <input className="input-row" />
         </td>
-        <td>
-          <input />
+        <td className="td-tableOption">
+          <input className="input-row" />
         </td>
-        <td>
-          <input />
+        <td className="td-tableOption">
+          <input className="input-row" />
         </td>
-        <td>
-          <input />
+        <td className="td-tableOption">
+          <input className="input-row" />
         </td>
-        <td>
-          <input />
+        <td className="td-tableOption">
+          <input className="input-row" />
         </td>
       </tr>
     );
@@ -54,14 +54,15 @@ export const Rows = ({ calls, puts }: Props) => {
 
         return (
           <tr className="rows" key={index}>
-            <td>
-              <input value={cantCall} />
+            <td className="td-tableOption">
+              <input className="input-row" value={cantCall} />
             </td>
-            <td>
-              <input value={primaCall} />
+            <td className="td-tableOption">
+              <input className="input-row" value={primaCall} />
             </td>
-            <td>
+            <td className="td-tableOption">
               <input
+                className="input-row"
                 value={
                   primaCall && cantCall
                     ? redondearDecimales(+primaCall * +cantCall, 2)
@@ -69,14 +70,15 @@ export const Rows = ({ calls, puts }: Props) => {
                 }
               />
             </td>
-            <td>
-              <input value={cantPut} />
+            <td className="td-tableOption">
+              <input className="input-row" value={cantPut} />
             </td>
-            <td>
-              <input value={primaPut} />
+            <td className="td-tableOption">
+              <input className="input-row" value={primaPut} />
             </td>
-            <td>
+            <td className="td-tableOption">
               <input
+                className="input-row"
                 value={
                   primaPut && cantPut
                     ? redondearDecimales(+primaPut * +cantPut, 2)

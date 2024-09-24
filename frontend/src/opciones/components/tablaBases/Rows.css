@@ -1,5 +1,17 @@
-td {
-  width: 20px;  
+.td-tableOption {
+  font-size: 12px;
+  text-align: right;
+  width: 64px;
+  font-weight: normal;
+  height: 20px;
+  vertical-align: middle;
+  position: relative;
+  border: 1px solid;  
 }
 
-.input-row {}
+.input-row {
+  border:0;
+  opacity: 0;
+  pointer-events: none;
+  width: 100%;
+}
