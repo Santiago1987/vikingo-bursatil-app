@@ -11,34 +11,37 @@ type Props = {
 export const BasesTabla = ({ base, callList, putList }: Props) => {
   return (
     <>
-      <table className="tabla-operaciones">
-        <thead>
-          <tr>
-            <th colSpan={6} scope="colgroup" id="base">
-              {base}
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <th colSpan={3} scope="colgroup" className="call-put">
-              Call
-            </th>
-            <th colSpan={3} scope="colgroup" className="call-put">
-              Put
-            </th>
-          </tr>
-          <tr>
-            <td className="td-tableOpction-title">Cantidad</td>
-            <td className="td-tableOpction-title">Prima</td>
-            <td className="td-tableOpction-title">Total</td>
-            <td className="td-tableOpction-title">Cantidad</td>
-            <td className="td-tableOpction-title">Prima</td>
-            <td className="td-tableOpction-title">Total</td>
-          </tr>
-          <Rows calls={callList} puts={putList} />
-        </tbody>
-      </table>
+      <div className="option-table">
+        <h3 id="base">{base}</h3>
+        <div className="table-callput">
+          <div className="table-call">
+            <h4 className="call-put">Call</h4>
+            <table>
+              <thead>
+                <th className="td-tableOpction-title">Cantidad</th>
+                <th className="td-tableOpction-title">Prima</th>
+                <th className="td-tableOpction-title">Total</th>
+              </thead>
+              <tbody>
+                <Rows operaciones={callList} />
+              </tbody>
+            </table>
+          </div>
+          <div className="table-call">
+            <h4 className="call-put">Put</h4>
+            <table>
+              <thead>
+                <th className="td-tableOpction-title ">Cantidad</th>
+                <th className="td-tableOpction-title ">Prima</th>
+                <th className="td-tableOpction-title ">Total</th>
+              </thead>
+              <tbody>
+                <Rows operaciones={putList} />
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
     </>
   );
 };

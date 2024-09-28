@@ -2,102 +2,70 @@ import "./Rows.css";
 import { OpcionesPrimaCant } from "../../../types";
 
 type Props = {
-  calls: OpcionesPrimaCant[];
-  puts: OpcionesPrimaCant[];
+  operaciones: OpcionesPrimaCant[];
 };
 
-export const Rows = ({ calls, puts }: Props) => {
-  let master = [];
-  let slave = [];
+export const Rows = ({ operaciones }: Props) => {
+  const handleClickTd = (
+    event: React.MouseEvent<HTMLTableCellElement, MouseEvent>
+  ) => {
+    //RECUPERO EL TD DONDE SE HIZO CLICK
+    const td = event.currentTarget;
 
-  if (calls.length === 0 && puts.length === 0) {
-    return (
-      <tr className="rows">
-        <td className="td-tableOption">
-          <input className="input-row" />
-          <span>{}</span>
-        </td>
-        <td className="td-tableOption">
-          <input className="input-row" />
-          <span>{}</span>
-        </td>
-        <td className="td-tableOption">
-          <input className="input-row" />
-          <span>{}</span>
-        </td>
-        <td className="td-tableOption">
-          <input className="input-row" />
-          <span>{}</span>
-        </td>
-        <td className="td-tableOption">
-          <input className="input-row" />
-          <span>{}</span>
-        </td>
-        <td className="td-tableOption">
-          <input className="input-row" />
-          <span>{}</span>
-        </td>
-      </tr>
+    console.log(td);
+    //RECUPERO EL INPUT Y EL SPAN DE ESE TD
+    const input = td.querySelector("input");
+    const span = td.querySelector("span");
+
+    if (!input || !span) return;
+    //HAGO FOCUS EN EL INPUT PARA QUE SE APLIQUE LOS ESTILOS
+    input.focus();
+    span.style.opacity = "0";
+
+    //evento blur: cuando el input pierde el focus
+    input.addEventListener(
+      "blur",
+      () => {
+        //TODO: evaluar si cambio el input para evitar refrezcar el state
+        //if(input.value === state)
+
+        span.style.opacity = "1";
+      },
+      { once: true }
     );
-  }
-
-  if (calls.length > puts.length) {
-    master = [...calls];
-    slave = [...puts];
-  } else {
-    master = [...puts];
-    slave = [...calls];
-  }
+    //once true: para que el evento solo actue una vez
+  };
 
   return (
     <>
-      {master.map((_, index) => {
-        let primaCall = calls[index] ? calls[index].prima : "";
-        let cantCall = calls[index] ? calls[index].cantidad : "";
-        console.log(index, puts[index]);
-        let primaPut = puts[index] ? puts[index].prima : "";
-        let cantPut = puts[index] ? puts[index].cantidad : "";
+      {operaciones.map((oper, index) => {
+        let { cantidad, prima } = oper;
 
         return (
           <tr className="rows" key={index}>
-            <td className="td-tableOption">
-              <input className="input-row" value={cantCall} />
-              <span>{}</span>
-            </td>
-            <td className="td-tableOption">
-              <input className="input-row" value={primaCall} />
-              <span>{}</span>
-            </td>
-            <td className="td-tableOption">
+            <td className="td-tableOption" onClick={handleClickTd}>
               <input
+                type="text"
                 className="input-row"
-                value={
-                  primaCall && cantCall
-                    ? redondearDecimales(+primaCall * +cantCall, 2)
-                    : ""
-                }
+                value={cantidad ? cantidad : ""}
               />
-              <span>{}</span>
+              <span>{cantidad ? cantidad : ""}</span>
             </td>
-            <td className="td-tableOption">
-              <input className="input-row" value={cantPut} />
-              <span>{}</span>
-            </td>
-            <td className="td-tableOption">
-              <input className="input-row" value={primaPut} />
-              <span>{}</span>
-            </td>
-            <td className="td-tableOption">
+            <td className="td-tableOption" onClick={handleClickTd}>
               <input
+                type="text"
                 className="input-row"
-                value={
-                  primaPut && cantPut
-                    ? redondearDecimales(+primaPut * +cantPut, 2)
-                    : ""
-                }
+                value={prima ? prima : ""}
               />
+              <span>{prima ? prima : ""}</span>
             </td>
-            <span>{}</span>
+            <td className="td-tableOption">
+              <span>
+                {prima && cantidad
+                  ? redondearDecimales(+prima * +cantidad, 2)
+                  : ""}
+              </span>
+            </td>
           </tr>
         );
       })}

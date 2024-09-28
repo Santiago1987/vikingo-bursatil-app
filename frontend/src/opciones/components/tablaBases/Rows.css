@@ -16,8 +16,13 @@
 .input-row {
   border:0;
   pointer-events: none;
-  width: 100%;
-  text-align: right;
+  opacity: 0;
+  border-radius: 2px;
+
+  &:focus{
+    opacity: 1;
+    outline: 2px solid #09f;
+  }
 }
 
 .td-tableOption > span,input {
@@ -25,6 +30,7 @@
   inset: 0;
   vertical-align: middle;
   display: inline-flex;
-  justify-content: center;
-  align-items: center;
+  justify-content: end;
+  text-align: right;
+  width: 100%;
 }

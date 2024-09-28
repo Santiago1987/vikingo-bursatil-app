@@ -1,7 +1,7 @@
 import "./opciones.css";
 import { useEffect, useState } from "react";
 import { getCalculosOpciones } from "../../utils/getCalculosOpciones.ts";
-import { Chart } from "../../components/Chart/Chart.tsx";
+import { Chart } from "../../components/chart/Chart.tsx";
 import { ListaTablaBases } from "../tablaBases/ListaTablaBases.tsx";
 import { OptionOperations } from "../../../types.ts";
 
@@ -24,7 +24,7 @@ export const Opciones = () => {
   const [data, setData] = useState<OptionOperations>({});
 
   useEffect(() => {
-    setData({
+    let result: OptionOperations = {
       ...ini_state,
       200: { call: [], put: [] },
       210: { call: [], put: [] },
@@ -32,7 +32,21 @@ export const Opciones = () => {
       230: { call: [], put: [] },
       270: { call: [], put: [] },
       280: { call: [], put: [] },
-    });
+    };
+
+    let index = Object.keys(result);
+    for (let el of index) {
+      let eln = +el;
+      console.log(eln, result[eln]);
+      let { call, put } = result[eln];
+
+      if (call.length === 0) call.push({ prima: 0, cantidad: 0 });
+      if (put.length === 0) put.push({ prima: 0, cantidad: 0 });
+
+      result = { ...result, [eln]: { call, put } };
+    }
+
+    setData(result);
   }, []);
 
   const results = Object.keys(data).length > 0 ? getCalculosOpciones(data) : [];
