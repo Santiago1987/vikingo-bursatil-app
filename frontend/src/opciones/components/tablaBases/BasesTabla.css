@@ -1,3 +1,12 @@
+.tabla-operaciones {
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.tabla-operaciones > th{
+    width: 100%;
+}
+
 .td-tableOpction-title {
     font-size: 14px;
     text-align: center;
@@ -5,10 +14,6 @@
     font-weight: bold;
     height: 20px;
     vertical-align: middle;
-}
-
-.tabla-operaciones {
-    width: 100%;
 }
 
 .call-put{

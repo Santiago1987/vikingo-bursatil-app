@@ -15,21 +15,27 @@ export const Rows = ({ calls, puts }: Props) => {
       <tr className="rows">
         <td className="td-tableOption">
           <input className="input-row" />
+          <span>{}</span>
         </td>
         <td className="td-tableOption">
           <input className="input-row" />
+          <span>{}</span>
         </td>
         <td className="td-tableOption">
           <input className="input-row" />
+          <span>{}</span>
         </td>
         <td className="td-tableOption">
           <input className="input-row" />
+          <span>{}</span>
         </td>
         <td className="td-tableOption">
           <input className="input-row" />
+          <span>{}</span>
         </td>
         <td className="td-tableOption">
           <input className="input-row" />
+          <span>{}</span>
         </td>
       </tr>
     );
@@ -56,9 +62,11 @@ export const Rows = ({ calls, puts }: Props) => {
           <tr className="rows" key={index}>
             <td className="td-tableOption">
               <input className="input-row" value={cantCall} />
+              <span>{}</span>
             </td>
             <td className="td-tableOption">
               <input className="input-row" value={primaCall} />
+              <span>{}</span>
             </td>
             <td className="td-tableOption">
               <input
@@ -69,12 +77,15 @@ export const Rows = ({ calls, puts }: Props) => {
                     : ""
                 }
               />
+              <span>{}</span>
             </td>
             <td className="td-tableOption">
               <input className="input-row" value={cantPut} />
+              <span>{}</span>
             </td>
             <td className="td-tableOption">
               <input className="input-row" value={primaPut} />
+              <span>{}</span>
             </td>
             <td className="td-tableOption">
               <input
@@ -86,6 +97,7 @@ export const Rows = ({ calls, puts }: Props) => {
                 }
               />
             </td>
+            <span>{}</span>
           </tr>
         );
       })}
