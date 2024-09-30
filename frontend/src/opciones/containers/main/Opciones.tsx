@@ -3,7 +3,17 @@ import { useEffect, useState } from "react";
 import { getCalculosOpciones } from "../../utils/getCalculosOpciones.ts";
 import { Chart } from "../../components/chart/Chart.tsx";
 import { ListaTablaBases } from "../tablaBases/ListaTablaBases.tsx";
-import { OptionOperations } from "../../../types.ts";
+import { OptionOperations, OpcionesPrimaCant } from "../../../types.ts";
+import { v4 as uuid } from "uuid";
+
+type primacant = Omit<OpcionesPrimaCant, "id">;
+
+type OpcionesResult = {
+  [key: number]: {
+    call: primacant[];
+    put: primacant[];
+  };
+};
 
 const ini_state = {
   240: {
@@ -24,7 +34,9 @@ export const Opciones = () => {
   const [data, setData] = useState<OptionOperations>({});
 
   useEffect(() => {
-    let result: OptionOperations = {
+    let newData: OptionOperations = {};
+
+    let result: OpcionesResult = {
       ...ini_state,
       200: { call: [], put: [] },
       210: { call: [], put: [] },
@@ -37,26 +49,70 @@ export const Opciones = () => {
     let index = Object.keys(result);
     for (let el of index) {
       let eln = +el;
-      console.log(eln, result[eln]);
       let { call, put } = result[eln];
+      if (!newData[eln]) newData[eln] = { call: [], put: [] };
 
-      if (call.length === 0) call.push({ prima: 0, cantidad: 0 });
-      if (put.length === 0) put.push({ prima: 0, cantidad: 0 });
+      if (call.length === 0)
+        newData[eln].call.push({ id: uuid(), prima: 0, cantidad: 0 });
+
+      if (put.length === 0)
+        newData[eln].put.push({ id: uuid(), prima: 0, cantidad: 0 });
+
+      if (call.length > 0) {
+        for (let el of call) {
+          newData[eln].call.push({ ...el, id: uuid() });
+        }
+      }
+
+      if (put.length > 0) {
+        for (let el of put) {
+          newData[eln].put.push({ ...el, id: uuid() });
+        }
+      }
 
       result = { ...result, [eln]: { call, put } };
     }
 
-    setData(result);
+    setData(newData);
   }, []);
 
+  const handleOnChangePrCant = (
+    ev: React.ChangeEvent<HTMLInputElement>,
+    base: number,
+    tipo: "call" | "put"
+  ): void => {
+    let { name, value, id } = ev.target;
+
+    let baseOper = data[base];
+    if (!baseOper) return;
+
+    let operationidx = baseOper[tipo].findIndex((el) => el.id === id);
+    if (operationidx < 0) return;
+
+    let newOper = baseOper[tipo][operationidx];
+
+    if (name === "cantidad") newOper.cantidad = +value;
+    if (name === "prima") newOper.prima = +value;
+
+    setData((prevState) => {
+      prevState[base][tipo][operationidx] = newOper;
+
+      return prevState;
+    });
+  };
+
   const results = Object.keys(data).length > 0 ? getCalculosOpciones(data) : [];
+
   return (
     <>
       <main>
         <h1>Opciones</h1>
         <section>
           <aside>
-            <ListaTablaBases OperationsList={data} />
+            <ListaTablaBases
+              OperationsList={data}
+              handleOnChangePrCant={handleOnChangePrCant}
+            />
           </aside>
           <aside>
             <Chart optionData={results} />

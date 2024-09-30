@@ -2,17 +2,27 @@ import "./Rows.css";
 import { OpcionesPrimaCant } from "../../../types";
 
 type Props = {
+  base: number;
   operaciones: OpcionesPrimaCant[];
+  handleOnChangePrCant: (
+    e: React.ChangeEvent<HTMLInputElement>,
+    base: number,
+    tipo: "call" | "put"
+  ) => void;
+  tipo: "call" | "put";
 };
 
-export const Rows = ({ operaciones }: Props) => {
+export const Rows = ({
+  base,
+  operaciones,
+  handleOnChangePrCant,
+  tipo,
+}: Props) => {
   const handleClickTd = (
     event: React.MouseEvent<HTMLTableCellElement, MouseEvent>
   ) => {
     //RECUPERO EL TD DONDE SE HIZO CLICK
     const td = event.currentTarget;
-
-    console.log(td);
     //RECUPERO EL INPUT Y EL SPAN DE ESE TD
     const input = td.querySelector("input");
     const span = td.querySelector("span");
@@ -35,27 +45,32 @@ export const Rows = ({ operaciones }: Props) => {
     );
     //once true: para que el evento solo actue una vez
   };
-
   return (
     <>
       {operaciones.map((oper, index) => {
-        let { cantidad, prima } = oper;
+        let { id, cantidad, prima } = oper;
 
         return (
           <tr className="rows" key={index}>
             <td className="td-tableOption" onClick={handleClickTd}>
               <input
+                id={id}
+                name="cantidad"
                 type="text"
                 className="input-row"
                 value={cantidad ? cantidad : ""}
+                onChange={(e) => handleOnChangePrCant(e, base, tipo)}
               />
               <span>{cantidad ? cantidad : ""}</span>
             </td>
             <td className="td-tableOption" onClick={handleClickTd}>
               <input
+                id={id}
+                name="prima"
                 type="text"
                 className="input-row"
                 value={prima ? prima : ""}
+                onChange={(e) => handleOnChangePrCant(e, base, tipo)}
               />
               <span>{prima ? prima : ""}</span>
             </td>

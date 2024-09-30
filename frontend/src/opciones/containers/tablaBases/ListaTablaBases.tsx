@@ -4,9 +4,17 @@ import { BasesTabla } from "../../components/tablaBases/BasesTabla";
 
 type Props = {
   OperationsList: OptionOperations;
+  handleOnChangePrCant: (
+    e: React.ChangeEvent<HTMLInputElement>,
+    base: number,
+    tipo: "call" | "put"
+  ) => void;
 };
 
-export const ListaTablaBases = ({ OperationsList }: Props) => {
+export const ListaTablaBases = ({
+  OperationsList,
+  handleOnChangePrCant,
+}: Props) => {
   let bases = Object.keys(OperationsList);
 
   return (
@@ -17,7 +25,13 @@ export const ListaTablaBases = ({ OperationsList }: Props) => {
           let operaciones = OperationsList[+base];
           let { call, put } = operaciones;
           return (
-            <BasesTabla key={base} base={+base} callList={call} putList={put} />
+            <BasesTabla
+              key={base}
+              base={+base}
+              callList={call}
+              putList={put}
+              handleOnChangePrCant={handleOnChangePrCant}
+            />
           );
         })}
       </article>

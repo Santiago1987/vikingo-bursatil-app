@@ -4,6 +4,7 @@ export interface OpcionesContrato {
 }
 
 export type OpcionesPrimaCant = {
+  id: string;
   cantidad: number;
   prima: number;
 };
