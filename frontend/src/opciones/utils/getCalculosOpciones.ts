@@ -50,6 +50,8 @@ export const getCalculosOpciones = (
     }
   }
 
+  console.log("callacum", callAcum);
+
   //Calculos de coordenadas
   //CALL
   for (let base of bases) {

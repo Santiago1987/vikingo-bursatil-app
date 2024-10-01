@@ -87,7 +87,7 @@ export const Opciones = () => {
 
     let baseOper = { ...datac[base] };
     if (!baseOper) return;
-    console.log(baseOper);
+
     let operationidx = baseOper[tipo].findIndex((el) => el.id === id);
     if (operationidx < 0) return;
 
