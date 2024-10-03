@@ -84,16 +84,24 @@ export const Opciones = () => {
     console.log("data", data);
     let { name, value, id } = ev.target;
 
-    let baseOper = data[base];
+    let datac = { ...data };
+
+    let baseOper = { ...datac[base] };
     if (!baseOper) return;
 
     let operationidx = baseOper[tipo].findIndex((el) => el.id === id);
     if (operationidx < 0) return;
 
-    let newOper = baseOper[tipo][operationidx];
+    let newOper = { ...baseOper[tipo][operationidx] };
 
     if (name === "cantidad") newOper.cantidad = +value;
     if (name === "prima") newOper.prima = +value;
+
+    baseOper[tipo][operationidx] = newOper;
+
+    datac[base] = { ...baseOper };
+
+    setData(datac);
   };
 
   const results = Object.keys(data).length > 0 ? getCalculosOpciones(data) : [];

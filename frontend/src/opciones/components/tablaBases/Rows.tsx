@@ -75,7 +75,7 @@ export const Rows = ({
             <td className="td-tableOption">
               <span>
                 {prima && cantidad
-                  ? redondearDecimales(+prima * +cantidad, 2)
+                  ? redondearDecimales(+prima * +cantidad * 100, 2)
                   : ""}
               </span>
             </td>
