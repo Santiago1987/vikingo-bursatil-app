@@ -61,7 +61,6 @@ export const Rows = ({
                 value={cantidad ? cantidad : ""}
                 onChange={(e) => handleOnChangePrCant(e, base, tipo)}
               />
-              <span>{cantidad ? cantidad : ""}</span>
             </td>
             <td className="td-tableOption" onClick={handleClickTd}>
               <input
@@ -72,7 +71,6 @@ export const Rows = ({
                 value={prima ? prima : ""}
                 onChange={(e) => handleOnChangePrCant(e, base, tipo)}
               />
-              <span>{prima ? prima : ""}</span>
             </td>
             <td className="td-tableOption">
               <span>

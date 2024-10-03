@@ -16,8 +16,16 @@
     gap:5px;
 }
 
+.table-call{
+    width: 100%;
+}
+
 .call-put{
     background-color: rgb(43, 54, 72);
+}
+
+.table-call > table{
+    width: 100%;
 }
 
 #base {

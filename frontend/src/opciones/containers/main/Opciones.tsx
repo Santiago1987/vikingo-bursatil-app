@@ -1,7 +1,7 @@
 import "./opciones.css";
 import { useEffect, useState } from "react";
 import { getCalculosOpciones } from "../../utils/getCalculosOpciones.ts";
-import { Chart } from "../../components/chart/Chart.tsx";
+import { Chart } from "../../components/Chart/Chart.tsx";
 import { ListaTablaBases } from "../tablaBases/ListaTablaBases.tsx";
 import { OptionOperations, OpcionesPrimaCant } from "../../../types.ts";
 import { v4 as uuid } from "uuid";
@@ -81,6 +81,7 @@ export const Opciones = () => {
     base: number,
     tipo: "call" | "put"
   ): void => {
+    console.log("data", data);
     let { name, value, id } = ev.target;
 
     let baseOper = data[base];
@@ -93,12 +94,6 @@ export const Opciones = () => {
 
     if (name === "cantidad") newOper.cantidad = +value;
     if (name === "prima") newOper.prima = +value;
-
-    setData((prevState) => {
-      prevState[base][tipo][operationidx] = newOper;
-
-      return prevState;
-    });
   };
 
   const results = Object.keys(data).length > 0 ? getCalculosOpciones(data) : [];
