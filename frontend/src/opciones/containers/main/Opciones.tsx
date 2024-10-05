@@ -17,17 +17,14 @@ type OpcionesResult = {
 
 const ini_state = {
   240: {
-    call: [{ cantidad: 40, prima: 30 }],
+    call: [{ cantidad: 40, prima: 10 }],
     put: [],
   },
   250: {
-    call: [
-      { cantidad: -40, prima: 27.31 },
-      { cantidad: 50, prima: 25.8 },
-    ],
+    call: [{ cantidad: -40, prima: 7 }],
     put: [],
   },
-  260: { call: [{ cantidad: -50, prima: 23 }], put: [] },
+  260: { call: [], put: [] },
 };
 
 export const Opciones = () => {
