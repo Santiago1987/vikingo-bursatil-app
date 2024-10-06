@@ -1,6 +1,7 @@
 import "./BasesTabla.css";
 import { OpcionesPrimaCant } from "../../../types";
 import { Rows } from "./Rows";
+import { PlusIcon } from "../../../icons/PlusIcon";
 
 type Props = {
   base: number;
@@ -11,6 +12,12 @@ type Props = {
     base: number,
     tipo: "call" | "put"
   ) => void;
+  handleOnClickAddOper: (base: number, type: "call" | "put") => void;
+  handleOnClickDeleteOper: (
+    base: number,
+    tipo: "call" | "put",
+    id: string
+  ) => void;
 };
 
 export const BasesTabla = ({
@@ -18,6 +25,8 @@ export const BasesTabla = ({
   callList,
   putList,
   handleOnChangePrCant,
+  handleOnClickAddOper,
+  handleOnClickDeleteOper,
 }: Props) => {
   return (
     <>
@@ -25,7 +34,15 @@ export const BasesTabla = ({
         <h3 id="base">{base}</h3>
         <div className="table-callput">
           <div className="table-call">
-            <h4 className="call-put">Call</h4>
+            <div className="call-put">
+              <h4>Call</h4>
+              <button
+                className="plus-operation"
+                onClick={() => handleOnClickAddOper(base, "call")}
+              >
+                <PlusIcon />
+              </button>
+            </div>
             <table>
               <thead>
                 <tr>
@@ -39,13 +56,22 @@ export const BasesTabla = ({
                   base={base}
                   operaciones={callList}
                   handleOnChangePrCant={handleOnChangePrCant}
+                  handleOnClickDeleteOper={handleOnClickDeleteOper}
                   tipo="call"
                 />
               </tbody>
             </table>
           </div>
           <div className="table-call">
-            <h4 className="call-put">Put</h4>
+            <div className="call-put">
+              <h4>Put</h4>
+              <button
+                className="plus-operation"
+                onClick={() => handleOnClickAddOper(base, "call")}
+              >
+                <PlusIcon />
+              </button>
+            </div>
             <table>
               <thead>
                 <tr>
@@ -59,6 +85,7 @@ export const BasesTabla = ({
                   base={base}
                   operaciones={putList}
                   handleOnChangePrCant={handleOnChangePrCant}
+                  handleOnClickDeleteOper={handleOnClickDeleteOper}
                   tipo="put"
                 />
               </tbody>

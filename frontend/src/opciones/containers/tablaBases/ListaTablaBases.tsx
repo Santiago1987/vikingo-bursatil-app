@@ -9,12 +9,21 @@ type Props = {
     base: number,
     tipo: "call" | "put"
   ) => void;
+  handleOnClickAddOper: (base: number, type: "call" | "put") => void;
+  handleOnClickDeleteOper: (
+    base: number,
+    tipo: "call" | "put",
+    id: string
+  ) => void;
 };
 
 export const ListaTablaBases = ({
   OperationsList,
   handleOnChangePrCant,
+  handleOnClickAddOper,
+  handleOnClickDeleteOper,
 }: Props) => {
+  3;
   let bases = Object.keys(OperationsList);
 
   return (
@@ -31,6 +40,8 @@ export const ListaTablaBases = ({
               callList={call}
               putList={put}
               handleOnChangePrCant={handleOnChangePrCant}
+              handleOnClickAddOper={handleOnClickAddOper}
+              handleOnClickDeleteOper={handleOnClickDeleteOper}
             />
           );
         })}

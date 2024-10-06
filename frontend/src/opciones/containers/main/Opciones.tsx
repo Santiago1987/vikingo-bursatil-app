@@ -17,17 +17,14 @@ type OpcionesResult = {
 
 const ini_state = {
   240: {
-    call: [{ cantidad: 40, prima: 30 }],
+    call: [{ cantidad: 40, prima: 10 }],
     put: [],
   },
   250: {
-    call: [
-      { cantidad: -40, prima: 27.31 },
-      { cantidad: 50, prima: 25.8 },
-    ],
+    call: [{ cantidad: -40, prima: 7 }],
     put: [],
   },
-  260: { call: [{ cantidad: -50, prima: 23 }], put: [] },
+  260: { call: [], put: [] },
 };
 
 export const Opciones = () => {
@@ -76,6 +73,7 @@ export const Opciones = () => {
     setData(newData);
   }, []);
 
+  //INGRESO DE DATOS
   const handleOnChangePrCant = (
     ev: React.ChangeEvent<HTMLInputElement>,
     base: number,
@@ -104,6 +102,35 @@ export const Opciones = () => {
     setData(datac);
   };
 
+  //AGREGADO DE NUEVAS FILAS
+  const handleOnClickAddOper = (base: number, type: "call" | "put") => {
+    let datac = { ...data };
+
+    if (!datac[base]) return;
+
+    datac[base][type].push({ id: uuid(), prima: 0, cantidad: 0 });
+
+    setData(datac);
+  };
+
+  //DELETEO DE OPERACIONES
+  const handleOnClickDeleteOper = (
+    base: number,
+    tipo: "call" | "put",
+    id: string
+  ) => {
+    let datac = { ...data };
+
+    if (!datac[base]) return;
+
+    let operaciones = [...datac[base][tipo]];
+
+    let newOper = operaciones.filter((el) => el.id !== id);
+
+    datac[base][tipo] = [...newOper];
+    setData(datac);
+  };
+
   const results = Object.keys(data).length > 0 ? getCalculosOpciones(data) : [];
 
   return (
@@ -115,6 +142,8 @@ export const Opciones = () => {
             <ListaTablaBases
               OperationsList={data}
               handleOnChangePrCant={handleOnChangePrCant}
+              handleOnClickAddOper={handleOnClickAddOper}
+              handleOnClickDeleteOper={handleOnClickDeleteOper}
             />
           </aside>
           <aside>

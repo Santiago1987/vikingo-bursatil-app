@@ -29,11 +29,12 @@ export const getCalculosOpciones = (
     if (call && call.length > 0) {
       for (let operation of call) {
         let { cantidad, prima } = operation;
+        if (cantidad && prima) {
+          primaCall -= cantidad * prima * 100;
+          primaTotal -= cantidad * prima * 100;
 
-        primaCall -= cantidad * prima * 100;
-        primaTotal -= cantidad * prima * 100;
-
-        callAcum[base] += cantidad * 100;
+          callAcum[base] += cantidad * 100;
+        }
       }
     }
 
@@ -41,16 +42,15 @@ export const getCalculosOpciones = (
     if (put && put.length > 0) {
       for (let operation of put) {
         let { cantidad, prima } = operation;
+        if (cantidad && prima) {
+          primaPut -= cantidad * prima * 100;
+          primaTotal -= cantidad * prima * 100;
 
-        primaPut -= cantidad * prima * 100;
-        primaTotal -= cantidad * prima * 100;
-
-        putAcum[base] += cantidad * 100;
+          putAcum[base] += cantidad * 100;
+        }
       }
     }
   }
-
-  console.log("callacum", callAcum);
 
   //Calculos de coordenadas
   //CALL

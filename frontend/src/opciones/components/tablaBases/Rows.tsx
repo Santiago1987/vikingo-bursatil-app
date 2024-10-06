@@ -1,5 +1,6 @@
 import "./Rows.css";
 import { OpcionesPrimaCant } from "../../../types";
+import { DeleteIcon } from "../../../icons/DeleteIcon";
 
 type Props = {
   base: number;
@@ -10,6 +11,11 @@ type Props = {
     tipo: "call" | "put"
   ) => void;
   tipo: "call" | "put";
+  handleOnClickDeleteOper: (
+    base: number,
+    tipo: "call" | "put",
+    id: string
+  ) => void;
 };
 
 export const Rows = ({
@@ -17,34 +23,8 @@ export const Rows = ({
   operaciones,
   handleOnChangePrCant,
   tipo,
+  handleOnClickDeleteOper,
 }: Props) => {
-  const handleClickTd = (
-    event: React.MouseEvent<HTMLTableCellElement, MouseEvent>
-  ) => {
-    //RECUPERO EL TD DONDE SE HIZO CLICK
-    const td = event.currentTarget;
-    //RECUPERO EL INPUT Y EL SPAN DE ESE TD
-    const input = td.querySelector("input");
-    const span = td.querySelector("span");
-
-    if (!input || !span) return;
-    //HAGO FOCUS EN EL INPUT PARA QUE SE APLIQUE LOS ESTILOS
-    input.focus();
-    span.style.opacity = "0";
-
-    //evento blur: cuando el input pierde el focus
-    input.addEventListener(
-      "blur",
-      () => {
-        //TODO: evaluar si cambio el input para evitar refrezcar el state
-        //if(input.value === state)
-
-        span.style.opacity = "1";
-      },
-      { once: true }
-    );
-    //once true: para que el evento solo actue una vez
-  };
   return (
     <>
       {operaciones.map((oper, index) => {
@@ -52,7 +32,7 @@ export const Rows = ({
 
         return (
           <tr className="rows" key={index}>
-            <td className="td-tableOption" onClick={handleClickTd}>
+            <td className="td-tableOption">
               <input
                 id={id}
                 name="cantidad"
@@ -62,7 +42,7 @@ export const Rows = ({
                 onChange={(e) => handleOnChangePrCant(e, base, tipo)}
               />
             </td>
-            <td className="td-tableOption" onClick={handleClickTd}>
+            <td className="td-tableOption">
               <input
                 id={id}
                 name="prima"
@@ -78,6 +58,14 @@ export const Rows = ({
                   ? redondearDecimales(+prima * +cantidad * 100, 2)
                   : ""}
               </span>
+            </td>
+            <td style={{ width: "0px" }}>
+              <button
+                className="delete-operation"
+                onClick={() => handleOnClickDeleteOper(base, tipo, id)}
+              >
+                <DeleteIcon />
+              </button>
             </td>
           </tr>
         );

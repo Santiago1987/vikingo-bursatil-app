@@ -20,8 +20,23 @@
     width: 100%;
 }
 
+.table-call > table{
+    width: 100%;
+}
+
 .call-put{
     background-color: rgb(43, 54, 72);
+    position: relative;
+}
+
+.plus-operation {
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background-color: transparent;
+    border: 0;
+    cursor: pointer;
 }
 
 .table-call > table{
