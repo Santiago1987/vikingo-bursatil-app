@@ -73,6 +73,7 @@ export const Opciones = () => {
     setData(newData);
   }, []);
 
+  //INGRESO DE DATOS
   const handleOnChangePrCant = (
     ev: React.ChangeEvent<HTMLInputElement>,
     base: number,
@@ -100,6 +101,35 @@ export const Opciones = () => {
     setData(datac);
   };
 
+  //AGREGADO DE NUEVAS FILAS
+  const handleOnClickAddOper = (base: number, type: "call" | "put") => {
+    let datac = { ...data };
+
+    if (!datac[base]) return;
+
+    datac[base][type].push({ id: uuid(), prima: 0, cantidad: 0 });
+
+    setData(datac);
+  };
+
+  //DELETEO DE OPERACIONES
+  const handleOnClickDeleteOper = (
+    base: number,
+    tipo: "call" | "put",
+    id: string
+  ) => {
+    let datac = { ...data };
+
+    if (!datac[base]) return;
+
+    let operaciones = [...datac[base][tipo]];
+
+    let newOper = operaciones.filter((el) => el.id !== id);
+
+    datac[base][tipo] = [...newOper];
+    setData(datac);
+  };
+
   const results = Object.keys(data).length > 0 ? getCalculosOpciones(data) : [];
 
   return (
@@ -111,6 +141,8 @@ export const Opciones = () => {
             <ListaTablaBases
               OperationsList={data}
               handleOnChangePrCant={handleOnChangePrCant}
+              handleOnClickAddOper={handleOnClickAddOper}
+              handleOnClickDeleteOper={handleOnClickDeleteOper}
             />
           </aside>
           <aside>
