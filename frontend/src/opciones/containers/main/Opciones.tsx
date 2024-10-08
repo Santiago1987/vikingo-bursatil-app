@@ -79,7 +79,6 @@ export const Opciones = () => {
     base: number,
     tipo: "call" | "put"
   ): void => {
-    console.log("data", data);
     let { name, value, id } = ev.target;
 
     let datac = { ...data };
