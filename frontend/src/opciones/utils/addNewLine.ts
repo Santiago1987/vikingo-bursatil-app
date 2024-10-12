@@ -1,14 +1,9 @@
-import { OptionOperations } from "../../types";
+import { OptionOperations, addNewOperation } from "../../types";
 import { v4 as uuid } from "uuid";
-
-type payload = {
-  base: number;
-  tipo: "call" | "put";
-};
 
 const addNewLine = (
   prevState: OptionOperations,
-  { base, tipo }: payload
+  { base, tipo }: addNewOperation
 ): OptionOperations => {
   const data = structuredClone(prevState);
 
