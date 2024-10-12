@@ -26,8 +26,8 @@ type state_actions = {
 };
 
 const UPDATE_STATE_BY_ACTION: state_actions = {
-  [opciones_actionns_type.UPDATE_PRIMA_CANTIDAD]: updatePrimaCant,
   [opciones_actionns_type.ADD_NEW_LINE]: addNewLine,
+  [opciones_actionns_type.UPDATE_PRIMA_CANTIDAD]: updatePrimaCant,
   [opciones_actionns_type.DELETE_LINE]: deleteLine,
 };
 

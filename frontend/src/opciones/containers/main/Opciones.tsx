@@ -1,7 +1,7 @@
 import "./opciones.css";
 import { useEffect, useState } from "react";
 import { getCalculosOpciones } from "../../utils/getCalculosOpciones.ts";
-import { Chart } from "../../components/Chart/Chart.tsx";
+import { Chart } from "../../components/chart/Chart.tsx";
 import { ListaTablaBases } from "../tablaBases/ListaTablaBases.tsx";
 import { OptionOperations, OpcionesPrimaCant } from "../../../types.ts";
 import { v4 as uuid } from "uuid";
