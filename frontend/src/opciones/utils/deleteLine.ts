@@ -1,15 +1,10 @@
-import { OptionOperations } from "../../types";
-
-type payload = {
-  base: number;
-  tipo: "call" | "put";
-  id: string;
-};
+import { OptionOperations, deleteOperation } from "../../types";
 
 const deleteLine = (
   prevState: OptionOperations,
-  { base, tipo, id }: payload
+  { base, tipo, id }: deleteOperation
 ): OptionOperations => {
+  if (!id) return prevState;
   let data = structuredClone(prevState);
 
   if (!data[base]) return data;
@@ -23,5 +18,4 @@ const deleteLine = (
   return data;
 };
 
-
-export default deleteLine
+export default deleteLine;

@@ -1,17 +1,11 @@
-import { OptionOperations } from "../../types";
-
-type payload = {
-  base: number;
-  tipo: "call" | "put";
-  name: string;
-  value: number;
-  id: string;
-};
+import { OptionOperations, updatePrimaCantidad } from "../../types";
 
 const updatePrimaCant = (
   prevState: OptionOperations,
-  { base, tipo, name, value, id }: payload
+  { base, tipo, name, value, id }: updatePrimaCantidad
 ): OptionOperations => {
+  if (!value || !id) return prevState;
+
   const data = structuredClone(prevState);
 
   let baseOper = { ...data[base] };
