@@ -4,7 +4,7 @@ const updatePrimaCant = (
   prevState: OptionOperations,
   { base, tipo, name, value, id }: updatePrimaCantidad
 ): OptionOperations => {
-  if (!value || !id) return prevState;
+  if (!id) return prevState;
 
   const data = structuredClone(prevState);
 
@@ -16,8 +16,8 @@ const updatePrimaCant = (
 
   let newOper = { ...baseOper[tipo][operationidx] };
 
-  if (name === "cantidad") newOper.cantidad = +value;
-  if (name === "prima") newOper.prima = +value;
+  if (name === "cantidad") newOper.cantidad = value ? +value : 0;
+  if (name === "prima") newOper.prima = value ? +value : 0;
 
   baseOper[tipo][operationidx] = newOper;
 

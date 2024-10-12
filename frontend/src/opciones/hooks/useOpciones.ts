@@ -93,7 +93,7 @@ const useOpciones = () => {
     []
   );
 
-  const setoOperations = useCallback((data: OptionOperations) => {
+  const setOperations = useCallback((data: OptionOperations) => {
     dispach({ type: opciones_actionns_type.SET_OPERATIONS, payload: data });
   }, []);
 
@@ -102,7 +102,7 @@ const useOpciones = () => {
     changePrimaCant,
     addOperation,
     deleteOperation,
-    setoOperations,
+    setOperations,
   };
 };
 

@@ -1,10 +1,11 @@
 import "./opciones.css";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { getCalculosOpciones } from "../../utils/getCalculosOpciones.ts";
 import { Chart } from "../../components/chart/Chart.tsx";
 import { ListaTablaBases } from "../tablaBases/ListaTablaBases.tsx";
 import { OptionOperations, OpcionesPrimaCant } from "../../../types.ts";
 import { v4 as uuid } from "uuid";
+import useOpciones from "../../hooks/useOpciones.ts";
 
 type primacant = Omit<OpcionesPrimaCant, "id">;
 
@@ -28,7 +29,13 @@ const ini_state = {
 };
 
 export const Opciones = () => {
-  const [data, setData] = useState<OptionOperations>({});
+  const {
+    operaciones,
+    changePrimaCant,
+    addOperation,
+    deleteOperation,
+    setOperations,
+  } = useOpciones();
 
   useEffect(() => {
     let newData: OptionOperations = {};
@@ -70,7 +77,7 @@ export const Opciones = () => {
       result = { ...result, [eln]: { call, put } };
     }
 
-    setData(newData);
+    setOperations(newData);
   }, []);
 
   //INGRESO DE DATOS
@@ -80,36 +87,14 @@ export const Opciones = () => {
     tipo: "call" | "put"
   ): void => {
     let { name, value, id } = ev.target;
+    if (name !== "cantidad" && name !== "prima") return;
 
-    let datac = { ...data };
-
-    let baseOper = { ...datac[base] };
-    if (!baseOper) return;
-
-    let operationidx = baseOper[tipo].findIndex((el) => el.id === id);
-    if (operationidx < 0) return;
-
-    let newOper = { ...baseOper[tipo][operationidx] };
-
-    if (name === "cantidad") newOper.cantidad = +value;
-    if (name === "prima") newOper.prima = +value;
-
-    baseOper[tipo][operationidx] = newOper;
-
-    datac[base] = { ...baseOper };
-
-    setData(datac);
+    changePrimaCant(base, tipo, name, +value, id);
   };
 
   //AGREGADO DE NUEVAS FILAS
   const handleOnClickAddOper = (base: number, type: "call" | "put") => {
-    let datac = { ...data };
-
-    if (!datac[base]) return;
-
-    datac[base][type].push({ id: uuid(), prima: 0, cantidad: 0 });
-
-    setData(datac);
+    addOperation(base, type);
   };
 
   //DELETEO DE OPERACIONES
@@ -118,19 +103,11 @@ export const Opciones = () => {
     tipo: "call" | "put",
     id: string
   ) => {
-    let datac = { ...data };
-
-    if (!datac[base]) return;
-
-    let operaciones = [...datac[base][tipo]];
-
-    let newOper = operaciones.filter((el) => el.id !== id);
-
-    datac[base][tipo] = [...newOper];
-    setData(datac);
+    deleteOperation(base, tipo, id);
   };
 
-  const results = Object.keys(data).length > 0 ? getCalculosOpciones(data) : [];
+  const results =
+    Object.keys(operaciones).length > 0 ? getCalculosOpciones(operaciones) : [];
 
   return (
     <>
@@ -138,15 +115,23 @@ export const Opciones = () => {
         <h1>Opciones</h1>
         <section>
           <aside>
-            <ListaTablaBases
-              OperationsList={data}
-              handleOnChangePrCant={handleOnChangePrCant}
-              handleOnClickAddOper={handleOnClickAddOper}
-              handleOnClickDeleteOper={handleOnClickDeleteOper}
-            />
+            {Object.keys(operaciones).length === 0 ? (
+              <p>Loading...</p>
+            ) : (
+              <ListaTablaBases
+                OperationsList={operaciones}
+                handleOnChangePrCant={handleOnChangePrCant}
+                handleOnClickAddOper={handleOnClickAddOper}
+                handleOnClickDeleteOper={handleOnClickDeleteOper}
+              />
+            )}
           </aside>
           <aside>
-            <Chart optionData={results} />
+            {Object.keys(operaciones).length === 0 ? (
+              <p>Loading...</p>
+            ) : (
+              <Chart optionData={results} />
+            )}
           </aside>
         </section>
       </main>
