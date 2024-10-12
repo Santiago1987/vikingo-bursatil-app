@@ -3,19 +3,20 @@ import {
   OptionOperations,
   OperacionesPayload,
 } from "../../types";
-
 import updatePrimaCant from "../utils/updatePrimaCant";
 import addNewLine from "../utils/addNewLine";
 import deleteLine from "../utils/deleteLine";
 import { useCallback, useReducer } from "react";
 
-const opciones_actionns_type = {
-  UPDATE_PRIMA_CANTIDAD: "UPDATE_PRIMA_CANTIDAD",
-  ADD_NEW_LINE: "ADD_NEW_LINE",
-  DELETE_LINE: "DELETE_LINE",
-};
+function isOptionOperation(data: any): data is OptionOperations {
+  if (!(data instanceof Object)) return false;
 
-const initial_state: OptionOperations = {};
+  let keys = Object.keys(data);
+
+  if (keys.length < 0) return false;
+
+  return !Number.isNaN(+keys[0]);
+}
 
 type state_actions = {
   [x: string]: (
@@ -24,6 +25,15 @@ type state_actions = {
   ) => OptionOperations;
 };
 
+const opciones_actionns_type = {
+  UPDATE_PRIMA_CANTIDAD: "UPDATE_PRIMA_CANTIDAD",
+  ADD_NEW_LINE: "ADD_NEW_LINE",
+  DELETE_LINE: "DELETE_LINE",
+  SET_OPERATIONS: "SET_OPERATIONS",
+};
+
+const initial_state: OptionOperations = {};
+
 // FUNCIONES
 const UPDATE_STATE_BY_ACTION: state_actions = {
   [opciones_actionns_type.ADD_NEW_LINE]: addNewLine,
@@ -31,21 +41,24 @@ const UPDATE_STATE_BY_ACTION: state_actions = {
   [opciones_actionns_type.DELETE_LINE]: deleteLine,
 };
 
+//-----------------------------------------------
 // REDUCER
 const opcionesReducer = (
   state: OptionOperations,
   { type, payload }: useOperacionesActions
 ) => {
+  if (isOptionOperation(payload)) {
+    if (type !== opciones_actionns_type.SET_OPERATIONS) return state;
+    return payload;
+  }
+
   const updateState = UPDATE_STATE_BY_ACTION[type];
   return updateState ? updateState(state, payload) : state;
 };
 
 // HOOK
 const useOpciones = () => {
-  const [operaciones, setOperaciones] = useReducer(
-    opcionesReducer,
-    initial_state
-  );
+  const [operaciones, dispach] = useReducer(opcionesReducer, initial_state);
 
   const changePrimaCant = useCallback(
     (
@@ -55,7 +68,7 @@ const useOpciones = () => {
       value: number,
       id: string
     ) => {
-      setOperaciones({
+      dispach({
         type: opciones_actionns_type.UPDATE_PRIMA_CANTIDAD,
         payload: { base, tipo, name, value, id },
       });
@@ -64,7 +77,7 @@ const useOpciones = () => {
   );
 
   const addOperation = useCallback((base: number, tipo: "call" | "put") => {
-    setOperaciones({
+    dispach({
       type: opciones_actionns_type.ADD_NEW_LINE,
       payload: { base, tipo },
     });
@@ -72,7 +85,7 @@ const useOpciones = () => {
 
   const deleteOperation = useCallback(
     (base: number, tipo: "call" | "put", id: string) => {
-      setOperaciones({
+      dispach({
         type: opciones_actionns_type.DELETE_LINE,
         payload: { base, tipo, id },
       });
@@ -80,7 +93,17 @@ const useOpciones = () => {
     []
   );
 
-  return { operaciones, changePrimaCant, addOperation, deleteOperation };
+  const setoOperations = useCallback((data: OptionOperations) => {
+    dispach({ type: opciones_actionns_type.SET_OPERATIONS, payload: data });
+  }, []);
+
+  return {
+    operaciones,
+    changePrimaCant,
+    addOperation,
+    deleteOperation,
+    setoOperations,
+  };
 };
 
 export default useOpciones;

@@ -37,7 +37,7 @@ export type OperacionesPayload = {
 
 export interface useOperacionesActions {
   type: string;
-  payload: OperacionesPayload;
+  payload: OperacionesPayload | OptionOperations;
 }
 
 export interface deleteOperation {

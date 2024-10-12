@@ -23,6 +23,11 @@
   }
 }
 
+.input-row::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
 .td-tableOption > span,input {
   position: absolute;
   inset: 0;

@@ -36,7 +36,7 @@ export const Rows = ({
               <input
                 id={id}
                 name="cantidad"
-                type="text"
+                type="number"
                 className="input-row"
                 value={cantidad ? cantidad : ""}
                 onChange={(e) => handleOnChangePrCant(e, base, tipo)}
@@ -46,7 +46,7 @@ export const Rows = ({
               <input
                 id={id}
                 name="prima"
-                type="text"
+                type="number"
                 className="input-row"
                 value={prima ? prima : ""}
                 onChange={(e) => handleOnChangePrCant(e, base, tipo)}
