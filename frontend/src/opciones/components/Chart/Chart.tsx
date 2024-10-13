@@ -44,27 +44,21 @@ export const Chart = ({ optionData }: { optionData: OptionResult[] }) => {
         display: true,
         position: "left" as const,
       },
-      y1: {
-        type: "linear" as const,
-        display: true,
-        position: "right" as const,
-        grid: {
-          drawOnChartArea: false,
-        },
-      },
     },
   };
 
   let labels = [];
-  let values_total = [];
+  let values_total: number[] = [];
+  let call_values: number[] = [];
+  let put_values: number[] = [];
 
   for (let elem of optionData) {
-    let { base, total } = elem;
+    let { base, total, callTotal, putTotal } = elem;
     labels.push(base);
     values_total.push(total);
+    call_values.push(callTotal);
+    put_values.push(putTotal);
   }
-
-  const zero = [...values_total].fill(0, 0);
 
   const data = {
     labels,
@@ -72,15 +66,22 @@ export const Chart = ({ optionData }: { optionData: OptionResult[] }) => {
       {
         label: "Total",
         data: values_total,
-        borderColor: "rgb(255, 99, 132)",
-        backgroundColor: "rgba(255, 99, 132, 0.5)",
+        borderColor: "#4fff33",
+        backgroundColor: "#4fff33",
         yAxisID: "y",
       },
       {
-        label: "Total",
-        data: zero,
-        borderColor: "#fff",
-        backgroundColor: "#fff",
+        label: "CALL",
+        data: call_values,
+        borderColor: "#d73017",
+        backgroundColor: "#d73017",
+        yAxisID: "y",
+      },
+      {
+        label: "PUT",
+        data: put_values,
+        borderColor: "#ff33fc",
+        backgroundColor: "#ff33fc",
         yAxisID: "y",
       },
     ],

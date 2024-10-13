@@ -22,8 +22,8 @@ const ini_state = {
     put: [],
   },
   250: {
-    call: [{ cantidad: -40, prima: 7 }],
-    put: [],
+    call: [],
+    put: [{ cantidad: 20, prima: 10 }],
   },
   260: { call: [], put: [] },
 };
