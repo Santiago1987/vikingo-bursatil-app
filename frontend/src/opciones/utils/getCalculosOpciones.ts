@@ -77,19 +77,21 @@ export const getCalculosOpciones = (
 
   //PUT
   //bases.reverse();
-  for (let i = bases.length; i === 0; i--) {
+  for (let i = bases.length - 1; i > -1; i--) {
     let currentBase = +bases[i];
     let val = 0;
 
-    for (let j = bases.length; j === i; j--) {
-      let b = +bases[j];
-      let valBas = callAcum[+b] ? callAcum[+b] : 0;
-      val += valBas * (currentBase - +b);
-    }
+    let idx = bases.length - 1;
 
-    let id = result.findIndex((el) => el.base === currentBase);
-    result[id].total += val;
-    result[id].putTotal += val;
+    while (currentBase - +bases[idx] < 0) {
+      let b = +bases[idx];
+      let valBas = putAcum[+b] ? putAcum[+b] : 0;
+      val += valBas * (currentBase - +b);
+
+      idx--;
+    }
+    result[i].total -= val;
+    result[i].putTotal -= val;
   }
 
   return result;
