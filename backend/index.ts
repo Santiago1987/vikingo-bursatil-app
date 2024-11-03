@@ -1,9 +1,15 @@
 import express from "express";
 import cors from "cors";
+import axios from "axios";
 import { connectiondb } from "./mongodb";
+import fs from "fs";
+import https from "https";
 
-const connectionString = "mongodb://localhost:27017/vikingoBursatilDB";
-connectiondb(connectionString);
+https.globalAgent.options.ca = fs.readFileSync(
+  "node_modules/node_extra_ca_certs_mozilla_bundle/ca_bundle/ca_intermediate_root_bundle.pem"
+);
+//const connectionString = "mongodb://localhost:27017/vikingoBursatilDB";
+//connectiondb(connectionString);
 
 const app = express();
 const port = process.env.PORT ?? 3000;
@@ -15,31 +21,32 @@ app.use("/api/opciones/:especie", (req, res) => {
 });
 
 app.get("/api/byma/cedears", (req, res) => {
-  return fetch(
-    "https://open.bymadata.com.ar/vanoms-be-core/rest/api/bymadata/free/cedears",
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        excludeZeroPxAndQty: true,
-        T1: true,
-        T0: true,
-        "Content-Type": "application/json",
-      }),
-    }
-  )
-    .then((result) => {
-      if (!result.ok) res.send({ message: "Cedear: error" }).status(400).end();
-      return result.json();
+  let data = {
+    excludeZeroPxAndQty: true,
+    T1: true,
+    T0: true,
+    "Content-Type": "application/json",
+  };
+
+  let headers = {
+    "Content-Type": "application/json",
+  };
+
+  return axios
+    .post(
+      "https://open.bymadata.com.ar/vanoms-be-core/rest/api/bymadata/free/cedears",
+      data,
+      { headers }
+    )
+    .then((response) => {
+      res.status(response.status).send(response.data).end();
     })
-    .then((data) => res.send(JSON.stringify(data)).status(200).end())
-    .catch((err) => res.send({ message: "NO HAY CASO" }).status(400).end());
+    .catch((error) => {
+      console.error("ERRORRRRR", error);
+      res.status(400).send(error).end();
+    });
 });
 
 app.listen(port, () => {
   console.log(`Server listening on port ${port}`);
 });
-
-//test
