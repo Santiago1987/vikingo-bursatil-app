@@ -4,6 +4,8 @@ import axios from "axios";
 import { connectiondb } from "./mongodb";
 import fs from "fs";
 import https from "https";
+import notFound from "./middleware/notFound";
+import handleErrors from "./middleware/handleErrors";
 
 https.globalAgent.options.ca = fs.readFileSync(
   "node_modules/node_extra_ca_certs_mozilla_bundle/ca_bundle/ca_intermediate_root_bundle.pem"
@@ -11,9 +13,8 @@ https.globalAgent.options.ca = fs.readFileSync(
 //const connectionString = "mongodb://localhost:27017/vikingoBursatilDB";
 //connectiondb(connectionString);
 
+//MIDDELWARE
 const app = express();
-const port = process.env.PORT ?? 3000;
-
 app.use(cors());
 
 app.use("/api/opciones/:especie", (req, res) => {
@@ -47,6 +48,14 @@ app.get("/api/byma/cedears", (req, res) => {
     });
 });
 
+app.get("/api/byma/opciones", (req, res) => {});
+
+//ERROR MIDDELWARE
+app.use(notFound);
+app.use(handleErrors);
+
+//SERVER CONFIGURATIONS
+const port = process.env.PORT ?? 3000;
 app.listen(port, () => {
   console.log(`Server listening on port ${port}`);
 });
