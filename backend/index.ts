@@ -6,6 +6,7 @@ import fs from "fs";
 import https from "https";
 import notFound from "./middleware/notFound";
 import handleErrors from "./middleware/handleErrors";
+import bymaRouter from "./routes/bymaRouter";
 
 https.globalAgent.options.ca = fs.readFileSync(
   "node_modules/node_extra_ca_certs_mozilla_bundle/ca_bundle/ca_intermediate_root_bundle.pem"
@@ -48,7 +49,7 @@ app.get("/api/byma/cedears", (req, res) => {
     });
 });
 
-app.get("/api/byma/opciones", (req, res) => {});
+app.use("/api/byma", bymaRouter);
 
 //ERROR MIDDELWARE
 app.use(notFound);

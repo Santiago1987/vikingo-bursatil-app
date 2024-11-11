@@ -1,6 +1,13 @@
 import { Router } from "express";
-import opcionesHandler from "../controllers/Byma/opcionesHandler";
+import opcionesHandler, {
+  getOpcionesEspecie,
+} from "../controllers/Byma/opcionesHandler";
 
 const bymaRouter = Router();
 
-bymaRouter.get("/opciones", opcionesHandler);
+bymaRouter
+  .get("/opciones", opcionesHandler)
+  .get("/opciones/:especie", getOpcionesEspecie)
+  .get("/opciones/:especie/ti");
+
+export default bymaRouter;

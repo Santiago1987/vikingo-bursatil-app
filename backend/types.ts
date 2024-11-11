@@ -28,6 +28,71 @@ export interface especieDataList {
   [key: string]: especieData[];
 }
 
+export interface OpcionesBymaAPI {
+  tradeVolume: number;
+  symbol: string;
+  imbalance: number;
+  previousSettlementPrice: number;
+  offerPrice: number;
+  openInterest: number;
+  vwap: number;
+  numberOfOrders: number;
+  openingPrice: number;
+  tickDirection: number;
+  underlyingSymbol: string;
+  securityDesc: string;
+  securitySubType: string;
+  maturityDate: Date;
+  previousClosingPrice: number;
+  settlementType: string;
+  quantityOffer: number;
+  tradingHighPrice: number;
+  denominationCcy: string;
+  bidPrice: number;
+  tradingLowPrice: number;
+  market: string;
+  volumeAmount: number;
+  volume: number;
+  trade: number;
+  daysToMaturity: number;
+  tradeHour: string;
+  securityType: string;
+  closingPrice: number;
+  settlementPrice: number;
+  quantityBid: number;
+}
+
+export interface PanelLider {
+  tradeVolume: number;
+  symbol: string;
+  imbalance: number;
+  previousSettlementPrice: number;
+  offerPrice: number;
+  openInterest: number;
+  vwap: number;
+  numberOfOrders: number;
+  openingPrice: number;
+  tickDirection: number;
+  securityDesc: string;
+  securitySubType: string;
+  previousClosingPrice: number;
+  settlementType: string;
+  quantityOffer: number;
+  tradingHighPrice: number;
+  denominationCcy: string;
+  bidPrice: number;
+  tradingLowPrice: number;
+  market: string;
+  volumeAmount: number;
+  volume: number;
+  trade: number;
+  tradeHour: string;
+  securityType: string;
+  closingPrice: number;
+  settlementPrice: number;
+  quantityBid: number;
+}
+
 // ESPECIES
 export enum CEDEARList {
   ALL = "ALL",
