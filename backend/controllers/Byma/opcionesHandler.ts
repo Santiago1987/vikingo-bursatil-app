@@ -4,30 +4,29 @@ import {
   setOpcionesValues,
 } from "../../utils/globales/bymaData";
 import { NextFunction, Request, Response } from "express";
+import { opcionesBYMA } from "../../types";
+import { getStock } from "./panelLiderHandler";
 
 //OBTENGO TODAS LAS OPCIONES DE TODAS LAS ESPCIES DE BYMA
-export default function opcionesHandler(
-  req: Request,
-  res: Response,
-  next: NextFunction
-) {
+export default function opcionesHandler() {
   let body = { "Content-Type": "application/json" };
 
   let headers = { "Content-Type": "application/json" };
 
-  return axios
+  axios
     .post(
       "https://open.bymadata.com.ar/vanoms-be-core/rest/api/bymadata/free/options",
       body,
       { headers }
     )
     .then((response) => {
-      setOpcionesValues(response.data);
-      res.status(response.status).send(response.data).end();
+      let { data } = response;
+      setOpcionesValues({ data, isupd: true });
     })
     .catch((error) => {
-      console.error("ERRORRRRR", error);
-      next(error);
+      if (!opcionesValue) return;
+      setOpcionesValues({ ...opcionesValue, isupd: false });
+      console.error("NO SE PUDO OBTENER LOS DATOS DE OPCIONES", error);
     });
 }
 
@@ -37,28 +36,33 @@ export function getOpcionesEspecie(
   res: Response,
   next: NextFunction
 ) {
-  console.log(opcionesValue.length);
-  if (opcionesValue.length === 0) {
-    let error = new Error();
-    error.name = "opcionesNoData";
-    throw error;
+  try {
+    if (!opcionesValue) {
+      let error = new Error();
+      error.name = "opcionesNoData";
+      throw error;
+    }
+
+    let { especie } = req.params;
+
+    if (!especie) {
+      let error = new Error();
+      error.name = "missingParameter";
+      throw error;
+    }
+
+    let { data } = opcionesValue;
+
+    let result = data.filter((el) => el.underlyingSymbol === especie);
+
+    if (!result) {
+      res.status(200).send([]).end();
+    }
+
+    return res.status(200).send(result).end();
+  } catch (error) {
+    next(error);
   }
-
-  let { especie } = req.params;
-
-  if (!especie) {
-    let error = new Error();
-    error.name = "missingParameter";
-    throw error;
-  }
-
-  let result = opcionesValue.filter((el) => el.underlyingSymbol === especie);
-
-  if (!result) {
-    res.status(200).send([]).end();
-  }
-
-  return res.status(200).send(result).end();
 }
 
 // TASA DE INTERES IMPILICITA DE UNA DETERMINADA ESPECIE
@@ -67,38 +71,65 @@ export function getTasaDeInteres(
   res: Response,
   next: NextFunction
 ) {
-  let result = {};
-  if (opcionesValue.length === 0) {
-    let error = new Error();
-    error.name = "opcionesNoData";
-    throw error;
-  }
+  try {
+    let result = {};
+    if (!opcionesValue) {
+      let error = new Error();
+      error.name = "opcionesNoData";
+      throw error;
+    }
 
-  let { especie } = req.params;
+    let { especie } = req.params;
 
-  if (!especie) {
-    let error = new Error();
-    error.name = "missingParameter";
-    throw error;
-  }
+    if (!especie) {
+      let error = new Error();
+      error.name = "missingParameter";
+      throw error;
+    }
 
-  let list = opcionesValue.filter((el) => el.underlyingSymbol === especie);
+    let { data } = opcionesValue;
+    let list = data.filter((el) => el.underlyingSymbol === especie);
 
-  for (let el of list) {
-    let { symbol, volume, trade, daysToMaturity } = el;
+    if (!list) {
+      return res.status(400).send({ message: "NO DATA" }).end();
+    }
 
-    let type = symbol.charAt(3);
-    let base = symbol.replace(/[ABCDEFGHIJLKMNOPQRSTUVWXYZ.]/gi, "");
+    let { underlyingSymbol } = list[0];
 
-    if (base && +volume > 0) {
-      result[base][type] = trade;
+    let stock = getStock(underlyingSymbol);
 
-      if (type === "C" && result[base]["V"]) {
-        let call = result[base]["C"];
-        let put = result[base]["V"];
+    if (!stock) {
+      return res.status(400).send({ message: "NO DATA" }).end();
+    }
 
-        let vf = +base + call - put;
+    let { trade: currVal } = stock;
+    for (let el of list) {
+      let { symbol, volume, trade, daysToMaturity } = el;
+
+      let type = symbol.charAt(3);
+      let base = symbol.replace(/[ABCDEFGHIJLKMNOPQRSTUVWXYZ.]/gi, "");
+
+      if (base && +volume > 0) {
+        if (!result[base]) result[base] = {};
+        result[base][type] = trade;
+
+        if (
+          (type === "C" && result[base]["V"]) ||
+          (type === "V" && result[base]["C"])
+        ) {
+          let call = result[base]["C"];
+          let put = result[base]["V"];
+
+          let tiv =
+            (((+base + call - put) / currVal - 1) / daysToMaturity) * 365 * 100;
+
+          result[base].ti = tiv;
+        }
       }
     }
+
+    return res.status(200).send(result).end();
+  } catch (error) {
+    next(error);
   }
 }

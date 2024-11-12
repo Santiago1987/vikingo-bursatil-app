@@ -7,6 +7,8 @@ import https from "https";
 import notFound from "./middleware/notFound";
 import handleErrors from "./middleware/handleErrors";
 import bymaRouter from "./routes/bymaRouter";
+import opcionesHandler from "./controllers/Byma/opcionesHandler";
+import panelLiderHandler from "./controllers/Byma/panelLiderHandler";
 
 https.globalAgent.options.ca = fs.readFileSync(
   "node_modules/node_extra_ca_certs_mozilla_bundle/ca_bundle/ca_intermediate_root_bundle.pem"
@@ -17,6 +19,10 @@ https.globalAgent.options.ca = fs.readFileSync(
 //MIDDELWARE
 const app = express();
 app.use(cors());
+
+//GETTING DATA BYMA
+opcionesHandler();
+panelLiderHandler();
 
 app.use("/api/opciones/:especie", (req, res) => {
   return res.status(200).json({}).end();

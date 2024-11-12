@@ -28,7 +28,7 @@ export interface especieDataList {
   [key: string]: especieData[];
 }
 
-export interface OpcionesBymaAPI {
+export type opcion = {
   tradeVolume: number;
   symbol: string;
   imbalance: number;
@@ -60,9 +60,14 @@ export interface OpcionesBymaAPI {
   closingPrice: number;
   settlementPrice: number;
   quantityBid: number;
+};
+
+export interface OpcionesBymaAPI {
+  data: opcion[];
+  isupd: boolean;
 }
 
-export interface PanelLider {
+export type stock = {
   tradeVolume: number;
   symbol: string;
   imbalance: number;
@@ -91,6 +96,11 @@ export interface PanelLider {
   closingPrice: number;
   settlementPrice: number;
   quantityBid: number;
+};
+
+export interface PanelLider {
+  data: stock[];
+  isupd: boolean;
 }
 
 // ESPECIES
