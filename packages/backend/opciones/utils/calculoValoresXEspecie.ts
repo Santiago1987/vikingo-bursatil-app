@@ -1,12 +1,10 @@
-import { OptionsOperations, valueXEspecie, AccumulatedValues } from "../types";
+import { OptionsOperations, coordinates, AccumulatedValues } from "../types";
 
 type Props = {
-  operationsList: OptionsOperations[];
+  operationsList: OptionsOperations;
 };
 
-export const calculoTotalValores = ({
-  operationsList,
-}: Props): valueXEspecie => {
+export const calculoTotalValores = ({ operationsList }: Props): coordinates => {
   let accumulatedVals = accumulateValuesBases(operationsList);
 
   let result = coordinatesCalculation(accumulatedVals);
@@ -14,25 +12,28 @@ export const calculoTotalValores = ({
   return result;
 };
 
-function accumulateValuesBases(
-  operationsList: OptionsOperations[]
+export function accumulateValuesBases(
+  operationsList: OptionsOperations
 ): AccumulatedValues {
   const totalsBaseAccumulator: AccumulatedValues = {};
-  operationsList.forEach((operations) => {
-    const base = Object.keys(operations)[0];
-    const callPrimaTotal: number = operations[+base].call.reduce(
+
+  const bases = Object.keys(operationsList);
+
+  for (let base of bases) {
+    const basen = +base;
+    const callPrimaTotal: number = operationsList[basen].call.reduce(
       (acc, option) => acc + option.price * option.quantity,
       0
     );
-    const putPrimaTotal = operations[+base].put.reduce(
+    const putPrimaTotal = operationsList[basen].put.reduce(
       (acc, option) => acc + option.price * option.quantity,
       0
     );
-    const callQuantityTotal = operations[+base].call.reduce(
+    const callQuantityTotal = operationsList[basen].call.reduce(
       (acc, option) => acc + option.quantity,
       0
     );
-    const putQuantityTotal = operations[+base].put.reduce(
+    const putQuantityTotal = operationsList[basen].put.reduce(
       (acc, option) => acc + option.quantity,
       0
     );
@@ -48,19 +49,45 @@ function accumulateValuesBases(
       putQuantityTotal,
       totalQuantity,
     };
-  });
+  }
   return totalsBaseAccumulator;
 }
 
-function coordinatesCalculation(
+export function coordinatesCalculation(
   valueXEspecie: AccumulatedValues
-): valueXEspecie {
-  const coordinates: valueXEspecie = {};
+): coordinates {
+  const coord: coordinates = {};
 
   let especieList = Object.keys(valueXEspecie);
 
-  for (let base of especieList) {
-  }
+  for (let currbase of especieList) {
+    let currbasen = +currbase;
 
-  return coordinates;
+    for (let base of especieList) {
+      let basen = +base;
+
+      // call
+      if (basen < currbasen) {
+        if (valueXEspecie[base]) {
+          coord[currbasen].call +=
+            valueXEspecie[basen].callQuantityTotal * (currbasen - basen) -
+            valueXEspecie[base].callPrimaTotal;
+
+          coord[currbasen].total += coord[currbasen].call;
+        }
+      }
+
+      // put
+      if (basen > currbasen) {
+        if (valueXEspecie[base]) {
+          coord[currbasen].put +=
+            valueXEspecie[basen].putQuantityTotal * (basen - currbasen) -
+            valueXEspecie[base].putPrimaTotal;
+
+          coord[currbasen].total -= coord[currbasen].put;
+        }
+      }
+    }
+  }
+  return coord;
 }

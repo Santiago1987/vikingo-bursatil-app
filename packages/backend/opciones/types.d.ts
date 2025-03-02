@@ -13,7 +13,7 @@ export interface OptionsOperations {
   [key: number]: OptionsTypes;
 }
 
-export interface valueXEspecie {
+export interface coordinates {
   [key: number]: {
     call: number;
     put: number;
