@@ -15,7 +15,12 @@ export const calculoTotalValores = ({ operationsList }: Props): coordinates => {
 export function accumulateValuesBases(
   operationsList: OptionsOperations
 ): AccumulatedValues {
-  const totalsBaseAccumulator: AccumulatedValues = {};
+  const totalsBaseAccumulator: AccumulatedValues = {
+    callPrimaTotal: 0,
+    putPrimaTotal: 0,
+    totalPrima: 0,
+    basesQty: {},
+  };
 
   const bases = Object.keys(operationsList);
 
@@ -39,15 +44,14 @@ export function accumulateValuesBases(
     );
 
     const totalPrima = callPrimaTotal + putPrimaTotal;
-    const totalQuantity = callQuantityTotal + putQuantityTotal;
 
-    totalsBaseAccumulator[base] = {
-      callPrimaTotal,
-      putPrimaTotal,
-      totalPrima,
+    totalsBaseAccumulator.callPrimaTotal += callPrimaTotal * 100;
+    totalsBaseAccumulator.putPrimaTotal += putPrimaTotal * 100;
+    totalsBaseAccumulator.totalPrima += totalPrima * 100;
+
+    totalsBaseAccumulator.basesQty[basen] = {
       callQuantityTotal,
       putQuantityTotal,
-      totalQuantity,
     };
   }
   return totalsBaseAccumulator;
@@ -58,7 +62,9 @@ export function coordinatesCalculation(
 ): coordinates {
   const coord: coordinates = {};
 
-  let especieList = Object.keys(valueXEspecie);
+  let { callPrimaTotal, putPrimaTotal, totalPrima, basesQty } = valueXEspecie;
+
+  let especieList = Object.keys(basesQty);
 
   for (let currbase of especieList) {
     let currbasen = +currbase;
@@ -71,7 +77,7 @@ export function coordinatesCalculation(
         if (valueXEspecie[base]) {
           coord[currbasen].call +=
             valueXEspecie[basen].callQuantityTotal * (currbasen - basen) -
-            valueXEspecie[base].callPrimaTotal;
+            callPrimaTotal;
 
           coord[currbasen].total += coord[currbasen].call;
         }
@@ -82,7 +88,7 @@ export function coordinatesCalculation(
         if (valueXEspecie[base]) {
           coord[currbasen].put +=
             valueXEspecie[basen].putQuantityTotal * (basen - currbasen) -
-            valueXEspecie[base].putPrimaTotal;
+            putPrimaTotal;
 
           coord[currbasen].total -= coord[currbasen].put;
         }
