@@ -12,18 +12,16 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@jest/globals": "^29.7.0",
-    "@types/cors": "^2.8.17",
-    "@types/express": "^5.0.0",
-    "ts-jest": "^29.2.6",
+    "@jest/globals": "29.7.0",
+    "@types/cors": "2.8.17",
+    "@types/express": "5.0.0",
+    "ts-jest": "29.2.6",
+    "ts-node": "^10.9.2",
     "tsx": "4.19.2"
   },
   "dependencies": {
-    "cors": "^2.8.5",
-    "dotenv": "^16.4.7",
-    "express": "^4.21.2"
-  },
-  "jest": {
-    "testEnvironment": "node"
+    "cors": "2.8.5",
+    "dotenv": "16.4.7",
+    "express": "4.21.2"
   }
 }
