@@ -22,12 +22,13 @@ export interface coordinates {
 }
 
 export interface AccumulatedValues {
-  [key: number]: {
-    callPrimaTotal: number;
-    putPrimaTotal: number;
-    totalPrima: number;
-    callQuantityTotal: number;
-    putQuantityTotal: number;
-    totalQuantity: number;
+  callPrimaTotal: number;
+  putPrimaTotal: number;
+  totalPrima: number;
+  basesQty: {
+    [key: number]: {
+      callQuantityTotal: number;
+      putQuantityTotal: number;
+    };
   };
 }
