@@ -8,7 +8,7 @@
     "dev": "pnpm --filter '**' dev",
     "front": "pnpm --filter 'frontend' dev",
     "back": "pnpm --filter 'backend' dev",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "testback": "pnpm --filter 'backend' test"
   },
   "keywords": [],
   "author": "",
