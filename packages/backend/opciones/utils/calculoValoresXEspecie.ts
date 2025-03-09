@@ -61,7 +61,6 @@ export function coordinatesCalculation(
   valueXEspecie: AccumulatedValues
 ): coordinates {
   const coord: coordinates = {};
-
   let { callPrimaTotal, putPrimaTotal, totalPrima, basesQty } = valueXEspecie;
 
   let especieList = Object.keys(basesQty);
@@ -71,29 +70,33 @@ export function coordinatesCalculation(
 
     for (let base of especieList) {
       let basen = +base;
+      if (coord[currbasen] === undefined) {
+        coord[currbasen] = {
+          call: 0,
+          put: 0,
+          total: 0,
+        };
+      }
+
+      let basediff = Math.abs(currbasen - basen);
 
       // call
-      if (basen < currbasen) {
-        if (valueXEspecie[base]) {
-          coord[currbasen].call +=
-            valueXEspecie[basen].callQuantityTotal * (currbasen - basen) -
-            callPrimaTotal;
+      let callqty =
+        basen < currbasen ? valueXEspecie.basesQty[basen].callQuantityTotal : 0;
+      coord[currbasen].call += callqty * basediff * 100;
 
-          coord[currbasen].total += coord[currbasen].call;
-        }
-      }
+      coord[currbasen].total += callqty * basediff * 100;
 
       // put
-      if (basen > currbasen) {
-        if (valueXEspecie[base]) {
-          coord[currbasen].put +=
-            valueXEspecie[basen].putQuantityTotal * (basen - currbasen) -
-            putPrimaTotal;
+      let putqty =
+        basen > currbasen ? valueXEspecie.basesQty[basen].putQuantityTotal : 0;
+      coord[currbasen].put += putqty * basediff * 100;
 
-          coord[currbasen].total -= coord[currbasen].put;
-        }
-      }
+      coord[currbasen].total += putqty * basediff * 100;
     }
+    coord[currbasen].call += valueXEspecie.callPrimaTotal;
+    coord[currbasen].put += valueXEspecie.putPrimaTotal;
+    coord[currbasen].total += valueXEspecie.totalPrima;
   }
   return coord;
 }
