@@ -94,9 +94,11 @@ export function coordinatesCalculation(
 
       coord[currbasen].total += putqty * basediff * 100;
     }
-    coord[currbasen].call += valueXEspecie.callPrimaTotal;
-    coord[currbasen].put += valueXEspecie.putPrimaTotal;
-    coord[currbasen].total += valueXEspecie.totalPrima;
+
+    coord[currbasen].call += callPrimaTotal;
+    coord[currbasen].put += putPrimaTotal;
+    coord[currbasen].total += totalPrima;
+    console.log("coord", currbasen, coord, totalPrima);
   }
   return coord;
 }
