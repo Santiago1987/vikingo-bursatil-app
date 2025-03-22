@@ -443,7 +443,7 @@ describe("coordinatesCalculation function", () => {
     let valueXEspecie = {
       callPrimaTotal: -2000,
       putPrimaTotal: 5000,
-      totalPrima: -3000,
+      totalPrima: 3000,
       basesQty: {
         10: {
           callQuantityTotal: 10,

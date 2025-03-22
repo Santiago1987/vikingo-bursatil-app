@@ -68,15 +68,14 @@ export function coordinatesCalculation(
   for (let currbase of especieList) {
     let currbasen = +currbase;
 
+    // initialization
+    coord[currbasen] = {
+      call: callPrimaTotal,
+      put: putPrimaTotal,
+      total: totalPrima,
+    };
     for (let base of especieList) {
       let basen = +base;
-      if (coord[currbasen] === undefined) {
-        coord[currbasen] = {
-          call: 0,
-          put: 0,
-          total: 0,
-        };
-      }
 
       let basediff = Math.abs(currbasen - basen);
 
@@ -94,11 +93,6 @@ export function coordinatesCalculation(
 
       coord[currbasen].total += putqty * basediff * 100;
     }
-
-    coord[currbasen].call += callPrimaTotal;
-    coord[currbasen].put += putPrimaTotal;
-    coord[currbasen].total += totalPrima;
-    console.log("coord", currbasen, coord, totalPrima);
   }
   return coord;
 }
