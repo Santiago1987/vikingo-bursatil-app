@@ -6,6 +6,26 @@ const ERROR_HANDLERS = {
       message: error.message,
     });
   },
+  TicketAndNameRequired: (response: Response, error: Error) => {
+    response.status(400).json({
+      message: error.message,
+    });
+  },
+  TicketExists: (response: Response, error: Error) => {
+    response.status(400).json({
+      message: error.message,
+    });
+  },
+  DatabaseError: (response: Response, error: Error) => {
+    response.status(500).json({
+      message: error.message,
+    });
+  },
+  EspecieNotFound: (response: Response, error: Error) => {
+    response.status(404).json({
+      message: error.message,
+    });
+  },
 };
 
 export default (
