@@ -26,6 +26,11 @@ const ERROR_HANDLERS = {
       message: error.message,
     });
   },
+  TypeError: (response: Response, error: Error) => {
+    response.status(400).json({
+      message: error.message,
+    });
+  },
 };
 
 export default (
@@ -36,7 +41,9 @@ export default (
 ) => {
   console.log(error.name);
 
-  const handler = ERROR_HANDLERS[error.name] || ERROR_HANDLERS.defaultError;
+  const handler =
+    ERROR_HANDLERS[error.name as keyof typeof ERROR_HANDLERS] ||
+    ERROR_HANDLERS.defaultError;
 
   handler(response, error);
 };
