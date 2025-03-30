@@ -8,7 +8,7 @@ const optionSchema = new Schema(
     data: [
       {
         quantity: { type: Number, require: true },
-        Prima: { type: Number, require: true },
+        prima: { type: Number, require: true },
       },
     ],
   },
