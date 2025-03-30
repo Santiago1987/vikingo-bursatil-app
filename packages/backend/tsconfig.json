@@ -1,0 +1,39 @@
+{
+    "compilerOptions": {
+        // Define la versión de JavaScript a la que se compilará el código
+        "target": "ESNext",
+        // Define el sistema de módulos (Node.js usa CommonJS por defecto)
+        "module": "ESNext",
+        // Habilita interoperabilidad entre CommonJS y ES Modules (soluciona el warning de ts-jest)
+        "esModuleInterop": true,
+        // Asegura que las importaciones sin extensión sean válidas (útil para Node.js)
+        "resolveJsonModule": true,
+        // Directorio donde se generarán los archivos compilados
+        "outDir": "./dist",
+        // Directorio raíz de los archivos fuente
+        "rootDir": ".",
+        // Habilita chequeos estrictos para mayor seguridad en el tipado
+        "strict": true,
+        // Omite la verificación de tipos en node_modules (acelera la compilación)
+        "skipLibCheck": true,
+        // Genera archivos de declaración (.d.ts) si los necesitas
+        "declaration": true,
+        // Soporte para pruebas con Jest
+        "types": ["jest", "node"],
+        // Habilita la resolución de módulos al estilo Node.js
+        "moduleResolution": "node"
+    },
+    // Especifica qué archivos incluir en la compilación
+    "include": [
+        "especies/**/*.ts",
+        "middlewares/**/*.ts",
+        "models/**/*.ts",
+        "routes/**/*.ts",
+        "opciones/**/*.ts",
+    ],
+    // Excluye directorios o archivos que no quieras compilar
+    "exclude": [
+        "node_modules",
+        "dist"
+    ]
+}
