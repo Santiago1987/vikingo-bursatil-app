@@ -1,6 +1,11 @@
 import mongoose from "mongoose";
+import dotenv from "dotenv";
+dotenv.config();
 
-const localConnectionString = process.env.MONGO_LOCAL_URI;
+const { MONGO_LOCAL_URI, MONGO_LOCAL_URI_TEST, NODE_ENV } = process.env;
+const localConnectionString =
+  NODE_ENV === "test" ? MONGO_LOCAL_URI_TEST : MONGO_LOCAL_URI;
+
 export function getLocalConnection() {
   if (!localConnectionString) {
     throw new Error("MONGO_LOCAL_URI is not defined");
