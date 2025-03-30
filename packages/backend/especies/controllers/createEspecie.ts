@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
-import { Especie } from "../models/especies.ts";
-import { getLocalConnection } from "../../Mongo/getLocalconnection.ts";
+import { Especie } from "../models/especies";
+import { getLocalConnection } from "../../Mongo/getLocalconnection";
 
 export const createEspecie = async (
   req: Request,

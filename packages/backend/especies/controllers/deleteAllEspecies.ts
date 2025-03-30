@@ -2,30 +2,24 @@ import { Request, Response, NextFunction } from "express";
 import { Especie } from "../models/especies";
 import { getLocalConnection } from "../../Mongo/getLocalconnection";
 
-export const getEspecie = async (
+export const deleteAllEspecies = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
-  const BDConnection = await getLocalConnection();
-  if (!BDConnection) {
+  const DBConnection = await getLocalConnection();
+  if (!DBConnection) {
     let err = new Error("Error connecting to database");
     err.name = "DatabaseError";
     next(err);
   }
   try {
-    const { ticket } = req.params;
-    const especie = await Especie.find({ ticket });
-    if (!especie) {
-      let error = new Error("Especie not found");
-      error.name = "EspecieNotFound";
-      throw error;
-    }
-    res.status(200).json(especie).end();
+    const especies = await Especie.deleteMany({});
+    res.status(200).json({ message: "All especies deleted" }).end();
     return;
   } catch (error) {
     next(error);
   } finally {
-    await BDConnection.connection.close();
+    await DBConnection.connection.close();
   }
 };

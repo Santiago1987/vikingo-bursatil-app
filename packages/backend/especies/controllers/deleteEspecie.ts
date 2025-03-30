@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from "express";
 import { Especie } from "../models/especies";
 import { getLocalConnection } from "../../Mongo/getLocalconnection";
 
-export const getEspecie = async (
+export const deleteEspecie = async (
   req: Request,
   res: Response,
   next: NextFunction
@@ -15,13 +15,19 @@ export const getEspecie = async (
   }
   try {
     const { ticket } = req.params;
-    const especie = await Especie.find({ ticket });
-    if (!especie) {
-      let error = new Error("Especie not found");
-      error.name = "EspecieNotFound";
+    //checkin if the ticket already exists
+    const especieExists = Boolean(await Especie.findOne({ ticket }));
+
+    if (!especieExists) {
+      let error = new Error("Ticket does not exist");
+      error.name = "TicketDoesNotExist";
       throw error;
     }
-    res.status(200).json(especie).end();
+
+    //deleting the especie
+    await Especie.deleteOne({ ticket });
+
+    res.status(200).json({ message: "Especie deleted" }).end();
     return;
   } catch (error) {
     next(error);
