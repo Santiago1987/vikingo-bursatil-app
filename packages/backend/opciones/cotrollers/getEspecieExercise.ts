@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from "express";
 import { Option } from "../models/options";
 import { getLocalConnection } from "../../Mongo/getLocalconnection";
 
-export const getOptionTicketOperations = async (
+export const getEspecieExercise = async (
   req: Request,
   res: Response,
   next: NextFunction
@@ -13,24 +13,11 @@ export const getOptionTicketOperations = async (
     err.name = "DatabaseError";
     next(err);
   }
+
   try {
-    const { id } = req.params;
-    if (!id) {
-      let err = new Error("missing parameter");
-      err.name = "MissingParameterError";
-      throw err;
-    }
-    const result = await Option.findById(id);
-    console.log("result", result);
-
-    if (!result) {
-      let err = new Error("Option not found");
-      err.name = "NotFoundError";
-      throw err;
-    }
-
-    let operations = result.toJSON();
-    res.status(200).json(operations.data).end();
+    const { ticket } = req.params;
+    const options = await Option.find({ ticket });
+    res.status(200).json(options).end();
     return;
   } catch (error) {
     next(error);

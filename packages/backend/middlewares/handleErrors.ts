@@ -31,6 +31,16 @@ const ERROR_HANDLERS = {
       message: error.message,
     });
   },
+  NotFoundError: (response: Response, error: Error) => {
+    response.status(400).json({
+      message: error.message,
+    });
+  },
+  MissingParameterError: (response: Response, error: Error) => {
+    response.status(400).json({
+      message: error.message,
+    });
+  },
 };
 
 export default (

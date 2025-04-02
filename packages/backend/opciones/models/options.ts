@@ -16,6 +16,15 @@ const optionSchema = new Schema(
     toJSON: {
       transform: (doc, ret) => {
         ret.id = ret._id;
+        ret.data = ret.data.map(
+          (item: { quantity: number; prima: number; _id: string }) => {
+            return {
+              quantity: item.quantity,
+              prima: item.prima,
+              id: item._id,
+            };
+          }
+        );
         delete ret._id;
         delete ret.__v;
         return ret;
