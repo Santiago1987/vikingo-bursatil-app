@@ -32,3 +32,14 @@ export interface AccumulatedValues {
     };
   };
 }
+
+export interface OptionDB {
+  ticket: string;
+  expiration: string;
+  operations: {
+    base: number;
+    type: string;
+    quantity: number;
+    prima: number;
+  }[];
+}
