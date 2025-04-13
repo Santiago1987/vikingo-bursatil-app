@@ -1,5 +1,13 @@
 import { getOptionTicketOperations } from "./getOptionTicketOperations";
-import { saveOptionOperation } from "./saveOptionOperation";
+import { saveNewOption } from "./saveNewOption";
 import { getEspecieExercise } from "./getEspecieExercise";
+import { saveNewOperation } from "./saveNewOperation";
+import { updateOperation } from "./updateOperation";
 
-export { getOptionTicketOperations, saveOptionOperation, getEspecieExercise };
+export {
+  getOptionTicketOperations,
+  saveNewOption,
+  getEspecieExercise,
+  saveNewOperation,
+  updateOperation,
+};
