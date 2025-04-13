@@ -41,6 +41,16 @@ const ERROR_HANDLERS = {
       message: error.message,
     });
   },
+  OptionExists: (response: Response, error: Error) => {
+    response.status(400).json({
+      message: error.message,
+    });
+  },
+  OptionNotFoundError: (response: Response, error: Error) => {
+    response.status(404).json({
+      message: error.message,
+    });
+  },
 };
 
 export default (
