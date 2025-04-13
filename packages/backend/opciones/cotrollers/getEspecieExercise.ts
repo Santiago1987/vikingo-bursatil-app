@@ -16,7 +16,15 @@ export const getEspecieExercise = async (
 
   try {
     const { ticket } = req.params;
-    const options = await Option.find({ ticket });
+    const result = await Option.find({ ticket });
+
+    let options = result.map((option) => {
+      return {
+        ticket: option.ticket,
+        expiration: option.expiration,
+      };
+    });
+
     res.status(200).json(options).end();
     return;
   } catch (error) {
