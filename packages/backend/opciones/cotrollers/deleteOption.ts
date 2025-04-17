@@ -1,8 +1,8 @@
 import { Request, Response, NextFunction } from "express";
-import { Option, Operations } from "../models/options";
+import { Option } from "../models/options";
 import { getLocalConnection } from "../../Mongo/getLocalconnection";
 
-export const saveNewOperation = async (
+export const deleteOption = async (
   req: Request,
   res: Response,
   next: NextFunction
@@ -14,31 +14,19 @@ export const saveNewOperation = async (
     next(err);
   }
   try {
-    const { id, base, type, quantity, prima } = req.body;
-    if (!id || !base || !type) {
+    const { id } = req.params;
+    if (!id) {
       let err = new Error("missing parameter");
       err.name = "MissingParameterError";
       throw err;
     }
-
-    const Operation = new Operations({ base, type, quantity, prima });
-    const newOperation = await Operation.save();
-    console.log("newOperation", newOperation);
-
-    let { _id } = newOperation;
-
-    await Option.findByIdAndUpdate(
-      { _id: id },
-      { $push: { operations: _id } },
-      { new: true }
-    );
-
-    if (!newOperation) {
+    const result = await Option.findByIdAndDelete(id);
+    if (!result) {
       let err = new Error("Option not found");
-      err.name = "OptionNotFoundError";
+      err.name = "NotFoundError";
       throw err;
     }
-    res.status(201).json(newOperation).end();
+    res.status(200).json(result).end();
   } catch (error) {
     next(error);
   } finally {
