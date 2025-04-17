@@ -19,7 +19,7 @@ const testOptions = [
   },
   {
     ticket: "testTicket2",
-    expiration: "2023-12-31",
+    expiration: "2023-12-30",
     operations: [
       {
         type: "put",
@@ -38,12 +38,12 @@ beforeEach(async () => {
 
   // test especies
   const option1 = new Option({
-    tikcet: testOptions[0].ticket,
+    ticket: testOptions[0].ticket,
     expiration: testOptions[0].expiration,
     operations: [],
   });
   const option2 = new Option({
-    tikcet: testOptions[1].ticket,
+    ticket: testOptions[1].ticket,
     expiration: testOptions[1].expiration,
     operations: [],
   });
@@ -56,10 +56,10 @@ beforeEach(async () => {
   await Operations.insertMany(
     testOptions[1].operations.map((op) => ({ ...op, option: option2._id }))
   );
-  DBConnection.connection.close(); // Close the database connection after the test
+  await DBConnection.connection.close(); // Close the database connection after the test
 });
 
-/*describe("options endpoints tests", () => {
+describe("options endpoints tests", () => {
   test("save a new option", async () => {
     const newOption = {
       ticket: "testTicket",
@@ -80,7 +80,7 @@ beforeEach(async () => {
     const response = await Option.find({});
     expect(response).toHaveLength(3); // Check if the new option was added
     expect(response[2].ticket).toBe(newOption.ticket);
-    DBConnection.connection.close(); // Close the database connection after the test
+    await DBConnection.connection.close(); // Close the database connection after the test
   });
 
   test("save same option again", async () => {
@@ -96,9 +96,31 @@ beforeEach(async () => {
     const DBConnection = await getLocalConnection();
     const resources = await Option.find({});
     expect(resources).toHaveLength(2); // Check if the new option was not added again
-    DBConnection.connection.close(); // Close the database connection after the test
+    await DBConnection.connection.close(); // Close the database connection after the test
   });
 
+  test("delete an option", async () => {
+    const DBConnection = await getLocalConnection();
+    const option = await Option.findOne({ ticket: "testTicket1" });
+    const { _id: id } = option!;
+    await DBConnection.connection.close(); // Close the database connection after the test
+
+    await api
+      .delete(`/api/options/deleteOption/${id}`)
+      .expect(200)
+      .expect("Content-Type", /application\/json/)
+      .then((response) => {
+        expect(response.body).toHaveProperty("id");
+        expect(response.body).toHaveProperty("ticket");
+        expect(response.body).toHaveProperty("expiration");
+
+        expect(response.body.ticket).toBe("testTicket1");
+        expect(response.body.expiration).toBe("2023-12-31");
+      });
+  });
+});
+
+describe("test operations endpoints", () => {
   test("save a new operation", async () => {
     const DBConnection = await getLocalConnection();
 
@@ -106,10 +128,9 @@ beforeEach(async () => {
       ticket: "testTicket1",
       expiration: "2023-12-31",
     });
+    await DBConnection.connection.close();
 
     let { _id: id } = ticket[0];
-    console.log("idddd", id);
-
     const newOperation = {
       id,
       base: 100,
@@ -128,11 +149,13 @@ beforeEach(async () => {
         expect(response.body).toHaveProperty("type");
         expect(response.body).toHaveProperty("quantity");
         expect(response.body).toHaveProperty("prima");
-        expect(response.body.id).toBe(id.toString());
-        expect(response.body.operations).toHaveLength(1);
+        expect(response.body.base).toBe(100);
+        expect(response.body.type).toBe("call");
+        expect(response.body.quantity).toBe(10);
+        expect(response.body.prima).toBe(5);
       });
   });
-});*/
+});
 
 afterAll(() => {
   console.log("Closing server...");
