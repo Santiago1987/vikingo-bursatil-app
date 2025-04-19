@@ -14,18 +14,27 @@ export const saveNewOperation = async (
     next(err);
   }
   try {
-    const { id, base, type, quantity, prima } = req.body;
+    let { id, base, type, quantity, prima } = req.body;
     if (!id || !base || !type) {
       let err = new Error("missing parameter");
       err.name = "MissingParameterError";
       throw err;
     }
 
+    quantity ??= 0;
+    prima ??= 0;
+
     const Operation = new Operations({ base, type, quantity, prima });
     const newOperation = await Operation.save();
+
     console.log("newOperation", newOperation);
 
     let { _id } = newOperation;
+    if (prima < 0) {
+      let err = new Error("prima cannot be negative");
+      err.name = "NegativePrimaError";
+      throw err;
+    }
 
     await Option.findByIdAndUpdate(
       { _id: id },

@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from "express";
 import { Option } from "../models/options";
 import { getLocalConnection } from "../../Mongo/getLocalconnection";
 
-export const getEspecieExercise = async (
+export const getAllEspecieExercises = async (
   req: Request,
   res: Response,
   next: NextFunction
@@ -22,6 +22,7 @@ export const getEspecieExercise = async (
       return {
         ticket: option.ticket,
         expiration: option.expiration,
+        id: option.id,
       };
     });
 
