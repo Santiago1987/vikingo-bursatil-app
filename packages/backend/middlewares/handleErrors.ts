@@ -56,6 +56,11 @@ const ERROR_HANDLERS = {
       message: error.message,
     });
   },
+  OperationNotFoundError: (response: Response, error: Error) => {
+    response.status(400).json({
+      message: error.message,
+    });
+  },
 };
 
 export default (

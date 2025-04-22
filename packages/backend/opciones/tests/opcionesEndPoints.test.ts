@@ -329,6 +329,17 @@ describe("test operations endpoints", () => {
     expect(operation2).toBeUndefined(); // Check if the operation was deleted
     await DBConnection.connection.close(); // Close the database connection after the test
   });
+
+  test("delete an operation with a incorrect id", async () => {
+    return api
+      .delete("/api/options/deleteOperation/123456789012345678901234")
+      .expect(400)
+      .expect("Content-Type", /application\/json/)
+      .then((response) => {
+        expect(response.body).toHaveProperty("message");
+        expect(response.body.message).toBe("Operation not found");
+      });
+  });
 });
 
 afterAll(() => {

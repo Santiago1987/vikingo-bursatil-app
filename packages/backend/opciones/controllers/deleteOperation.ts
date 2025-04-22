@@ -23,6 +23,11 @@ export const deleteOperation = async (
     }
 
     let result = await Operations.findOneAndDelete({ _id: id });
+    if (!result) {
+      let err = new Error("Operation not found");
+      err.name = "OperationNotFoundError";
+      throw err;
+    }
 
     res.status(200).json(result).end();
   } catch (error) {
